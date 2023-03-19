@@ -6,46 +6,49 @@ const closeIcon = document.querySelector('.fa-circle-xmark');
 const recipesNotFound = document.querySelector('.recipe-not-found');
 let searchTerm = '';
 
-// closeIcon.addEventListener('click', () => {
-//   console.log(searchBar.value);
-//   searchTerm = '';
-//   searchBar.value = ``;
-//   inputValue.innerHTML = ``;
-//   inputWrapper.classList.remove('active');
-//   showList();
-// });
+let recipes;
 
-searchBar.addEventListener('input', e => {
-  searchTerm = e.target.value.toLowerCase();
-  if (searchTerm.length >= 3) {
-    showList();
-  }
-});
+getData().then(recipes => {
+  // closeIcon.addEventListener('click', () => {
+  //   console.log(searchBar.value);
+  //   searchTerm = '';
+  //   searchBar.value = ``;
+  //   inputValue.innerHTML = ``;
+  //   inputWrapper.classList.remove('active');
+  //   showList();
+  // });
 
-// const showInputValue = () => {
-//   inputValue.innerHTML = `${searchTerm}`;
-// };
-
-const showList = () => {
-  results.innerHTML = '';
-  const filteredResults = recipes.filter(item => {
-    return (
-      item.name.toLowerCase().includes(searchTerm) ||
-      item.ingredients.some(i => i.ingredient.toLowerCase().includes(searchTerm)) ||
-      item.description.toLowerCase().includes(searchTerm)
-    );
+  searchBar.addEventListener('input', e => {
+    searchTerm = e.target.value.toLowerCase();
+    if (searchTerm.length >= 3) {
+      showList();
+    }
   });
 
-  if (!!filteredResults && searchTerm.length >= 3) {
-    recipesNotFound.innerHTML = `Aucune recette ne correspond à votre critère &#9785;. Vous pouvez
+  // const showInputValue = () => {
+  //   inputValue.innerHTML = `${searchTerm}`;
+  // };
+
+  const showList = () => {
+    results.innerHTML = '';
+    const filteredResults = recipes.filter(item => {
+      return (
+        item.name.toLowerCase().includes(searchTerm) ||
+        item.ingredients.some(i => i.ingredient.toLowerCase().includes(searchTerm)) ||
+        item.description.toLowerCase().includes(searchTerm)
+      );
+    });
+
+    if (!!filteredResults && searchTerm.length >= 3) {
+      recipesNotFound.innerHTML = `Aucune recette ne correspond à votre critère &#9785;. Vous pouvez
     chercher « coco », « poisson », etc.`;
-  }
+    }
 
-  filteredResults.forEach(item => {
-    recipesNotFound.innerHTML = ``;
-    const card = document.createElement('div');
+    filteredResults.forEach(item => {
+      recipesNotFound.innerHTML = ``;
+      const card = document.createElement('div');
 
-    card.innerHTML = `
+      card.innerHTML = `
       <div class="card">
           <div class="card-fake-img" alt=""></div>
           <div class="card-body">
@@ -74,8 +77,9 @@ const showList = () => {
         </div>
       </div>
     `;
-    results.appendChild(card);
-  });
-};
+      results.appendChild(card);
+    });
+  };
 
-showList();
+  showList();
+});
