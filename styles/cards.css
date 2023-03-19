@@ -1,0 +1,60 @@
+@import 'index.css';
+
+.card {
+  height: 100%;
+}
+
+.card-body {
+  background-color: var(--grey-light);
+}
+
+.card-fake-img {
+  height: 178px;
+  background-color: var(--grey);
+}
+
+.card-text{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.card-name {
+  font-weight: normal;
+}
+
+.card-time{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: 700;
+}
+
+.card-time-number {
+  margin-left: 5px;
+}
+.card-ingredients-description {
+  margin: 20px 0;
+  font-size: 12px;
+}
+
+.card-text-description {
+  overflow: hidden;
+   text-overflow: ellipsis;
+   display: -webkit-box;
+   -webkit-line-clamp: 6;
+    line-clamp: 6;
+   -webkit-box-orient: vertical;
+}
+
+.card-ingredients {
+  display: grid;
+  grid-gap: 10px;
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.ingredients ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}

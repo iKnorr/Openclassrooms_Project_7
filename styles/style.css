@@ -1,0 +1,55 @@
+@import '/styles/index.css';
+
+header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 8rem;
+  padding: 2rem 0 1rem 0;
+}
+
+header img {
+  height: 100%;
+}
+
+#search-bar {
+  margin-bottom: 10px;
+  height: 69px;
+  background-color: var(--grey-light);
+}
+
+#search-bar::placeholder {
+  color: var(--grey);
+}
+
+.input-value-wrapper {
+  display: none;
+  justify-content: space-evenly;
+  align-items: center;
+  width: 107px;
+  height: 37px;
+  margin: 20px 0 10px 0;
+  background-color: var(--blue);
+  border-radius: 5px;
+  font-weight: 700;
+  color: var(--white);
+}
+
+.recipe-not-found {
+  margin: 60px 0;
+  width: 100%;
+  text-align: center;
+}
+
+.active {
+  display: flex;
+}
+
+.fa-circle-xmark:before {
+  cursor: pointer;
+  font-size: 20px;
+}
+
+#input-value {
+  font-size: 14px;
+}
