@@ -1,0 +1,95 @@
+@import 'index.css';
+
+.btn-search{
+  width: 170px;
+  height: 69px;
+  border-radius: 5px;
+  color: var(--white);
+  border: none;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.btn-ingredients {
+  background-color: var(--blue);
+}
+
+.btn-ingredients:hover {
+  color: var(--white);
+  background-color: var(--blue-hover);
+}
+
+.btn-ingredients i{
+  margin-left: 20px;
+}
+
+.ingredients-search {
+  position: relative;
+  margin: 20px 0;
+  width: 100%;
+  font-weight: 400;
+}
+
+
+.ingredients-search i{
+  position: absolute;
+  top: 25px;
+  right: 20px;
+  color: var(--white);
+}
+
+ul.ingredients-list {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  margin: 0 0 10px 0;
+  padding: 0 0 0 15px;
+  height: auto;
+  width: 100%;
+  background-color: var(--blue);
+  border-radius: 0 0 5px 5px;
+  overflow: scroll;
+}
+
+ul a {
+  text-decoration: none;
+}
+
+.ingredients-search input {
+  padding: 0 0 0 20px;
+  height: 69px;
+  width: 100%;
+  background-color: var(--blue);
+  border: none;
+  color: var(--white);
+  border-radius: 5px 5px 0 0;
+}
+
+.ingredients-search input:focus {
+  outline: none;
+  border: none;
+  box-shadow: none;
+  background-color: var(--blue);
+  color: var(--white);
+  font-size: 18px;
+}
+
+.ingredients-search input::placeholder {
+  color: var(--grey-light);
+  font-size: 18px;
+}
+
+.ingredients-search li{
+  cursor: pointer;
+  padding: 10px 5px ;
+}
+
+.ingredients-search li:hover {
+  color: var(--white);
+  background-color: var(--blue-hover);
+}
+
+.ingredients-item {
+  color: var(--white);
+  font-size: 18px;
+}

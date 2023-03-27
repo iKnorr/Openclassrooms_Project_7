@@ -23,19 +23,42 @@ getData().then(recipes => {
     if (searchTerm.length >= 3) {
       showList();
     }
+    showList();
   });
+
+  // Alternative with for loop
+  // let filteredWithFor = [];
+
+  // for (i = 0; i < recipes.length; i++) {
+  //   if (
+  //     recipes[i].name.toLowerCase().includes('huile') ||
+  //     recipes[i].description.toLowerCase().includes('huile') ||
+  //     recipes[i].ingredients.some(i => i.ingredient.toLowerCase().includes('huile'))
+  //   ) {
+  //     filteredWithFor = [...filteredWithFor, recipes[i]];
+  //   }
+  // }
+  // console.log('FOR LOOP', filteredWithFor);
 
   // const showInputValue = () => {
   //   inputValue.innerHTML = `${searchTerm}`;
   // };
 
+  const searchName = (name, searchTerm) => {
+    name.toLowerCase().includes(searchTerm);
+  };
+
+  const searchIngredients = (ingredients, searchTerm) => {
+    ingredients.some(i => i.ingredient.toLowerCase().includes(searchTerm));
+  };
+
   const showList = () => {
     results.innerHTML = '';
-    const filteredResults = recipes.filter(item => {
+    const filteredResults = recipes.filter(({ name, ingredients, description }) => {
       return (
-        item.name.toLowerCase().includes(searchTerm) ||
-        item.ingredients.some(i => i.ingredient.toLowerCase().includes(searchTerm)) ||
-        item.description.toLowerCase().includes(searchTerm)
+        searchName(name, searchTerm) ||
+        searchIngredients(ingredients, searchTerm) ||
+        description.toLowerCase().includes(searchTerm)
       );
     });
 
@@ -81,5 +104,44 @@ getData().then(recipes => {
     });
   };
 
+  let ingredientsList = [];
+  recipes.map(({ ingredients }) => {
+    return ingredients.map(({ ingredient }) => ingredientsList.push(ingredient.toLowerCase()));
+  });
+
+  const ingredientsSET = new Set(ingredientsList);
+  const newIngredientsList = [...ingredientsSET];
+
+  const ingredientsSearch = document.querySelector('.ingredients-search');
+  const ingredientsWrapper = document.createElement('div');
+  let searchTermIngredients = '';
+
+  ingredientsSearch.addEventListener('input', e => {
+    searchTermIngredients = e.target.value.toLowerCase();
+    if (searchTermIngredients.length >= 3) {
+      showListIngredients();
+      showList();
+    }
+    showListIngredients();
+    showList();
+  });
+
+  const showListIngredients = () => {
+    const filteredIngredients = newIngredientsList.filter(i => i.includes(searchTermIngredients));
+
+    ingredientsWrapper.innerHTML = `
+
+    <i class="fa-solid fa-chevron-up"></i>
+    <ul class="ingredients-list">${filteredIngredients
+      .map(i => {
+        return `<li><a class="ingredients-item" href="#">${i}</a></li>`;
+      })
+      .join('')}
+      </ul>
+      `;
+    ingredientsSearch.appendChild(ingredientsWrapper);
+  };
+
+  showListIngredients();
   showList();
 });
