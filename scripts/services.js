@@ -92,6 +92,9 @@ const createIngredientIndex = filteredData => {
 
       createIngredientsDOM(newIngredientsOnly);
       createCardsDOM(newFiltered);
+      newIngredientsOnly.forEach(i => {
+        i.addEventListener('click', function???);
+      });
     });
   });
 };
