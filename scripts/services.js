@@ -9,32 +9,31 @@ const filterAll = (data, searchTerm) => {
   return results;
 };
 
-const filterRecipesByNames = (searchValues, name) => {
-  return searchValues.every(searchValue => {
-    console.log(searchValue);
+const filterRecipesByNames = (recipeSearch, name) => {
+  return recipeSearch.every(searchValue => {
     return name.toLowerCase().includes(searchValue.toLowerCase());
   });
 };
 
-const filterRecipesByIngredients = (searchValues, ingredients) => {
+const filterRecipesByIngredients = (recipeSearch, ingredients) => {
   const ingredientsArray = ingredients.map(i => i.ingredient.toLowerCase());
-  return searchValues.every(searchValue =>
+  return recipeSearch.every(searchValue =>
     ingredientsArray.some(ingredient => ingredient.includes(searchValue.toLowerCase())),
   );
 };
 
-const filterRecipesByDescription = (searchValues, description) => {
-  return searchValues.every(searchValue => {
+const filterRecipesByDescription = (recipeSearch, description) => {
+  return recipeSearch.every(searchValue => {
     return description.toLowerCase().includes(searchValue.toLowerCase());
   });
 };
 
-const filterAll2 = (data, searchValues) => {
+const filterRecipes = (data, recipeSearch) => {
   const results = data.filter(({ name, ingredients, description }) => {
     return (
-      filterRecipesByNames(searchValues, name) ||
-      filterRecipesByIngredients(searchValues, ingredients) ||
-      filterRecipesByDescription(searchValues, description)
+      filterRecipesByNames(recipeSearch, name) ||
+      filterRecipesByIngredients(recipeSearch, ingredients) ||
+      filterRecipesByDescription(recipeSearch, description)
     );
   });
 
@@ -48,7 +47,7 @@ const filterIngredients = (data, term) => {
   return results;
 };
 
-const filterOnlyIngredients = data => {
+const filterIngredientsForList = data => {
   let ingredientsList = [];
   let ingredientsSET;
   data.map(({ ingredients }) => {
@@ -61,6 +60,10 @@ const filterOnlyIngredients = data => {
 const createCardsDOM = filteredData => {
   const results = document.getElementById('results');
   results.innerHTML = '';
+
+  if (filteredData.length === 0) {
+    recipesNotFound.innerHTML = `Aucune recette ne correspond à votre critère &#9785;. Vous pouvez chercher « coco », « poisson », etc.`;
+  }
 
   filteredData.forEach(({ name, time, ingredients, description }) => {
     recipesNotFound.innerHTML = ``;
@@ -102,17 +105,23 @@ const createCardsDOM = filteredData => {
 };
 
 const createIngredientsDOM = list => {
-  ingredientsListUL.innerHTML = `${list
-    .map(i => {
-      return `<li class="ingredients-item">${i}</li>`;
-    })
-    .join('')}
-    `;
+  if (!list) {
+    ingredientsListUL.innerHTML = '';
+    searchBarIngredients.style.borderRadius = '5px';
+  } else {
+    searchBarIngredients.style.borderRadius = '5px 5px 0 0';
+    ingredientsListUL.innerHTML = `${list
+      .map(i => {
+        return `<li class="ingredients-item">${i}</li>`;
+      })
+      .join('')}
+      `;
+  }
 };
 
 const createIngredientIndex = (filteredData, recipes) => {
   const indexIngredients = document.querySelector('.index-ingredients');
-  let searchValues = [];
+  let recipeSearch = [];
 
   const handleIngredientClick = e => {
     let newTerm = e.target.textContent.toLowerCase();
@@ -132,8 +141,8 @@ const createIngredientIndex = (filteredData, recipes) => {
     const newIngredientsEl = document.querySelectorAll('.new-ingredient');
     const textContentArray = Array.from(newIngredientsEl).map(i => i.textContent);
 
-    if (!searchValues.includes(newTerm) && !textContentArray.includes(newTerm)) {
-      searchValues.push(newTerm);
+    if (!recipeSearch.includes(newTerm) && !textContentArray.includes(newTerm)) {
+      recipeSearch.push(newTerm);
       const newIngredient = document.createElement('span');
       newIngredient.classList.add('new-ingredient');
       newIngredient.innerHTML = `<p class="tag">${newTerm}</p><i class="close-index fa-regular fa-circle-xmark"></i>`;
@@ -149,29 +158,30 @@ const createIngredientIndex = (filteredData, recipes) => {
         const removedIngredient = el.parentElement.textContent;
         el.parentElement.remove();
 
-        let newSearchValuesArray = searchValues.filter(i => {
+        let newrecipeSearchArray = recipeSearch.filter(i => {
           return !i.includes(removedIngredient);
         });
 
-        searchValues = [...newSearchValuesArray];
+        recipeSearch = [...newrecipeSearchArray];
 
         const filteredRecipesIngredients = recipes.filter(({ ingredients }) => {
           const ingredientsArray = ingredients.map(i => i.ingredient.toLowerCase());
-          return newSearchValuesArray.every(searchValue =>
+          return newrecipeSearchArray.every(searchValue =>
             ingredientsArray.some(ingredient => ingredient.includes(searchValue.toLowerCase())),
           );
         });
-        console.log('newSearchValuesArray', filteredRecipesIngredients);
+        console.log('newrecipeSearchArray', filteredRecipesIngredients);
 
-        createIngredientsDOM(filterOnlyIngredients(filteredRecipesIngredients));
+        createIngredientsDOM(filterIngredientsForList(filteredRecipesIngredients));
         createCardsDOM(filteredRecipesIngredients);
       });
     });
   };
 
-  ingredientsListUL.addEventListener('click', e => {
-    if (e.target.matches('.ingredients-item')) {
-      handleIngredientClick(e);
-    }
-  });
+  ingredientsListUL.addEventListener('click', handleIngredientClick);
+  // ingredientsListUL.addEventListener('click', e => {
+  //   if (e.target.matches('.ingredients-item')) {
+  //     handleIngredientClick(e);
+  //   }
+  // });
 };
