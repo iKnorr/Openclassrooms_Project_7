@@ -30,14 +30,6 @@ let recipes;
 getData().then(recipes => {
   let searchTerm = '';
   let searchTermIngredients = '';
-  // closeIcon.addEventListener('click', () => {
-  //   console.log(searchBar.value);
-  //   searchTerm = '';
-  //   searchBar.value = ``;
-  //   inputValue.innerHTML = ``;
-  //   inputWrapper.classList.remove('active');
-  //   showList();
-  // });
 
   searchBar.addEventListener('input', e => {
     searchTerm = e.target.value.toLowerCase();
@@ -72,6 +64,21 @@ getData().then(recipes => {
 
   const showList = () => {
     results.innerHTML = '';
+
+    // const result = filterData(recipes, ['lait de coco', 'citron']);
+    // console.log('RESULT', result);
+    // const searchValues = ['coco', 'citron'];
+
+    // const filteredRecipesByIngredients = recipes.filter(({ ingredients }) => {
+    //   const ingredientsArray = ingredients.map(i => i.ingredient.toLowerCase());
+
+    //   return searchValues.every(searchValue =>
+    //     ingredientsArray.some(ingredient => ingredient.includes(searchValue.toLowerCase())),
+    //   );
+    // });
+
+    // console.log('RECIPES', filteredRecipesByIngredients);
+
     const filteredResults = filterAll(recipes, searchTerm);
 
     if (!!filteredResults && searchTerm.length >= 3) {
@@ -84,17 +91,17 @@ getData().then(recipes => {
     const ingredientsOnly = filterOnlyIngredients(filteredResults);
 
     let formerSET;
-    const ingredientsSET = [...new Set(ingredientsOnly)];
-    formerSET = ingredientsSET;
+    // const ingredientsSET = [...new Set(ingredientsOnly)];
+    formerSET = ingredientsOnly;
 
     const filteredIngredients = formerSET.filter(i => i.toLowerCase().includes(searchTermIngredients));
 
     if (ingredientsSearch.textContent.length >= 3) {
       createIngredientsDOM(filteredIngredients);
     } else {
-      createIngredientsDOM(ingredientsSET);
+      createIngredientsDOM(ingredientsOnly);
     }
-    createIngredientIndex(filteredResults);
+    createIngredientIndex(filteredResults, recipes);
   };
 
   showList();

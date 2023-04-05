@@ -33,6 +33,7 @@
   width: 600px;
   /* width: 100%; */
   font-weight: 400;
+  box-shadow: 2px 0px 5px rgba(0, 0, 0, 0.3);
 }
 
 .fa-chevron-up {
@@ -62,6 +63,7 @@ ul.ingredients-list {
   background-color: var(--blue);
   border-radius: 0 0 5px 5px;
   overflow: scroll;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
   z-index: 200;
 }
 
