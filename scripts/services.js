@@ -9,6 +9,38 @@ const filterAll = (data, searchTerm) => {
   return results;
 };
 
+const filterRecipesByNames = (searchValues, name) => {
+  return searchValues.every(searchValue => {
+    console.log(searchValue);
+    return name.toLowerCase().includes(searchValue.toLowerCase());
+  });
+};
+
+const filterRecipesByIngredients = (searchValues, ingredients) => {
+  const ingredientsArray = ingredients.map(i => i.ingredient.toLowerCase());
+  return searchValues.every(searchValue =>
+    ingredientsArray.some(ingredient => ingredient.includes(searchValue.toLowerCase())),
+  );
+};
+
+const filterRecipesByDescription = (searchValues, description) => {
+  return searchValues.every(searchValue => {
+    return description.toLowerCase().includes(searchValue.toLowerCase());
+  });
+};
+
+const filterAll2 = (data, searchValues) => {
+  const results = data.filter(({ name, ingredients, description }) => {
+    return (
+      filterRecipesByNames(searchValues, name) ||
+      filterRecipesByIngredients(searchValues, ingredients) ||
+      filterRecipesByDescription(searchValues, description)
+    );
+  });
+
+  return results;
+};
+
 const filterIngredients = (data, term) => {
   const results = data.filter(({ ingredients }) => {
     return ingredients.some(i => i.ingredient.toLowerCase().includes(term));
@@ -123,19 +155,23 @@ const createIngredientIndex = (filteredData, recipes) => {
 
         searchValues = [...newSearchValuesArray];
 
-        const filteredRecipesByIngredients = recipes.filter(({ ingredients }) => {
+        const filteredRecipesIngredients = recipes.filter(({ ingredients }) => {
           const ingredientsArray = ingredients.map(i => i.ingredient.toLowerCase());
           return newSearchValuesArray.every(searchValue =>
             ingredientsArray.some(ingredient => ingredient.includes(searchValue.toLowerCase())),
           );
         });
-        console.log('newSearchValuesArray', newSearchValuesArray);
+        console.log('newSearchValuesArray', filteredRecipesIngredients);
 
-        createIngredientsDOM(filterOnlyIngredients(filteredRecipesByIngredients));
-        createCardsDOM(filteredRecipesByIngredients);
+        createIngredientsDOM(filterOnlyIngredients(filteredRecipesIngredients));
+        createCardsDOM(filteredRecipesIngredients);
       });
     });
   };
 
-  ingredientsListUL.addEventListener('click', handleIngredientClick);
+  ingredientsListUL.addEventListener('click', e => {
+    if (e.target.matches('.ingredients-item')) {
+      handleIngredientClick(e);
+    }
+  });
 };

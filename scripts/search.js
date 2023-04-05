@@ -30,9 +30,13 @@ let recipes;
 getData().then(recipes => {
   let searchTerm = '';
   let searchTermIngredients = '';
+  const searchTermArray = [];
 
   searchBar.addEventListener('input', e => {
     searchTerm = e.target.value.toLowerCase();
+    if (!searchTermArray.includes(searchTerm)) {
+      searchTermArray.push(searchTerm);
+    }
     if (searchTerm.length >= 3) {
       showList();
     } else if (searchTerm.length === 0) {
@@ -78,8 +82,10 @@ getData().then(recipes => {
     // });
 
     // console.log('RECIPES', filteredRecipesByIngredients);
-
     const filteredResults = filterAll(recipes, searchTerm);
+
+    const filtered2 = filterAll2(recipes, ['coco']);
+    console.log('filtered2', filtered2);
 
     if (!!filteredResults && searchTerm.length >= 3) {
       recipesNotFound.innerHTML = `Aucune recette ne correspond à votre critère &#9785;. Vous pouvez
