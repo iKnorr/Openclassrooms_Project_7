@@ -1,15 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+    crossorigin="anonymous"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" />
   <link rel="stylesheet" href="./styles/index.css">
   <title>Les Petits Plats</title>
 </head>
+
 <body>
   <header>
     <img src="./assets/images/logo_petits_plats.png" alt="logo_petits_plats">
@@ -21,11 +26,32 @@
       <i class="fa-solid fa-magnifying-glass"></i>
     </div>
     <div class="ingredients-tags"></div>
+    <div class="utensils-tags"></div>
+    <div class="appliances-tags"></div>
     <section id="dropdowns">
-      <button class="btn-search btn-ingredients">Ingredients<i class="fa-solid fa-chevron-down"></i></button>
-      <div class="ingredients-search">
-        <input id="search-bar-ingredients" type="search" placeholder="Rechercher des ingrédients"><i class="fa-solid fa-chevron-up"></i>
-        <ul class="ingredients-list"></ul>
+      <div id="ingredients-dropdown">
+        <button class="btn-search btn-ingredients">Ingredients<i class="fa-solid fa-chevron-down"></i></button>
+        <div class="ingredients-search">
+          <input id="search-bar-ingredients" type="search" placeholder="Rechercher des ingrédients"><i
+            class="fa-solid fa-chevron-up"></i>
+          <ul class="ingredients-list"></ul>
+        </div>
+      </div>
+      <div id="appliance-dropdown">
+        <button class="btn-search btn-appliances">Appareils<i class="fa-solid fa-chevron-down"></i></button>
+        <div class="ingredients-search">
+          <input id="search-bar-ingredients" type="search" placeholder="Rechercher des appareils"><i
+            class="fa-solid fa-chevron-up"></i>
+          <ul class="ingredients-list"></ul>
+        </div>
+      </div>
+      <div id="utensils-dropdowns">
+        <button class="btn-search btn-utensils">Ustensiles<i class="fa-solid fa-chevron-down"></i></button>
+        <div class="ingredients-search">
+          <input id="search-bar-ingredients" type="search" placeholder="Rechercher des ustensils"><i
+            class="fa-solid fa-chevron-up"></i>
+          <ul class="ingredients-list"></ul>
+        </div>
       </div>
     </section>
     <div id="results" class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4"></div>
@@ -35,4 +61,5 @@
   <script src="scripts/services.js"></script>
   <script src="scripts/search.js"></script>
 </body>
+
 </html>

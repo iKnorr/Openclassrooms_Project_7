@@ -3,9 +3,9 @@
 
 // for (i = 0; i < recipes.length; i++) {
 //   if (
-//     recipes[i].name.toLowerCase().includes('huile') ||
-//     recipes[i].description.toLowerCase().includes('huile') ||
-//     recipes[i].ingredients.some(i => i.ingredient.toLowerCase().includes('huile'))
+//     recipes[i].name.includes('huile') ||
+//     recipes[i].description.includes('huile') ||
+//     recipes[i].ingredients.some(i => i.ingredient.includes('huile'))
 //   ) {
 //     filteredWithFor = [...filteredWithFor, recipes[i]];
 //   }
@@ -59,7 +59,7 @@ getData().then(recipes => {
   // Global Search in names, description and ingredients
   searchBar.addEventListener('input', e => {
     recipeSearch.commonSearch = e.target.value;
-    recipeSearch.filteredRecipes = filterAll(baseRecipes, recipeSearch.commonSearch.toLowerCase());
+    recipeSearch.filteredRecipes = filterAll(baseRecipes, recipeSearch.commonSearch);
 
     if (recipeSearch.commonSearch.length >= 3 || !recipeSearch.commonSearch.length) {
       createIngredientsDOM(filterIngredientsForList(recipeSearch.filteredRecipes));
@@ -70,7 +70,7 @@ getData().then(recipes => {
 
   // Search in ingredients only
   searchBarIngredients.addEventListener('input', e => {
-    recipeSearch.ingredientsSearch = e.target.value.toLowerCase();
+    recipeSearch.ingredientsSearch = e.target.value;
 
     recipeSearch.filteredRecipes = filterAll(
       recipeSearch.filteredRecipes.length ? recipeSearch.filteredRecipes : baseRecipes,
@@ -81,7 +81,7 @@ getData().then(recipes => {
     recipeSearch.filteredRecipes.map(({ ingredients }) => {
       ingredients.map(({ ingredient }) => {
         if (ingredient.includes(recipeSearch.ingredientsSearch)) {
-          filteredIngredientsList.push(ingredient.toLowerCase());
+          filteredIngredientsList.push(ingredient);
         }
       });
     });
@@ -107,9 +107,9 @@ getData().then(recipes => {
 
 // for (i = 0; i < recipes.length; i++) {
 //   if (
-//     recipes[i].name.toLowerCase().includes('huile') ||
-//     recipes[i].description.toLowerCase().includes('huile') ||
-//     recipes[i].ingredients.some(i => i.ingredient.toLowerCase().includes('huile'))
+//     recipes[i].name.includes('huile') ||
+//     recipes[i].description.includes('huile') ||
+//     recipes[i].ingredients.some(i => i.ingredient.includes('huile'))
 //   ) {
 //     filteredWithFor = [...filteredWithFor, recipes[i]];
 //   }
@@ -138,7 +138,7 @@ getData().then(recipes => {
 //   const searchTermArray = [];
 
 //   searchBar.addEventListener('input', e => {
-//     searchTerm = e.target.value.toLowerCase();
+//     searchTerm = e.target.value;
 //     if (!searchTermArray.includes(searchTerm)) {
 //       searchTermArray.push(searchTerm);
 //     }
@@ -150,7 +150,7 @@ getData().then(recipes => {
 //   });
 
 //   ingredientsSearch.addEventListener('input', e => {
-//     searchTermIngredients = e.target.value.toLowerCase();
+//     searchTermIngredients = e.target.value;
 //     if (searchTermIngredients.length >= 3) {
 //       showList();
 //     } else if (searchTermIngredients.length === 0) {
@@ -179,10 +179,10 @@ getData().then(recipes => {
 //     // const recipeSearch = ['coco', 'citron'];
 
 //     // const filteredRecipesByIngredients = recipes.filter(({ ingredients }) => {
-//     //   const ingredientsArray = ingredients.map(i => i.ingredient.toLowerCase());
+//     //   const ingredientsArray = ingredients.map(i => i.ingredient);
 
 //     //   return recipeSearch.every(searchValue =>
-//     //     ingredientsArray.some(ingredient => ingredient.includes(searchValue.toLowerCase())),
+//     //     ingredientsArray.some(ingredient => ingredient.includes(searchValue)),
 //     //   );
 //     // });
 
@@ -205,7 +205,7 @@ getData().then(recipes => {
 //     // const ingredientsSET = [...new Set(ingredientsOnly)];
 //     formerSET = ingredientsOnly;
 
-//     const filteredIngredients = formerSET.filter(i => i.toLowerCase().includes(searchTermIngredients));
+//     const filteredIngredients = formerSET.filter(i => i.includes(searchTermIngredients));
 
 //     if (ingredientsSearch.textContent.length >= 3) {
 //       createIngredientsDOM(filteredIngredients);

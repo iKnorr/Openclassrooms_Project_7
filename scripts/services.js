@@ -21,9 +21,9 @@ const recipeSearch = {
 const filterAll = (data, searchTerm) => {
   const results = data.filter(({ name, ingredients, description }) => {
     return (
-      name.toLowerCase().includes(searchTerm) ||
-      ingredients.some(i => i.ingredient.toLowerCase().includes(searchTerm)) ||
-      description.toLowerCase().includes(searchTerm)
+      name.includes(searchTerm) ||
+      ingredients.some(i => i.ingredient.includes(searchTerm)) ||
+      description.includes(searchTerm)
     );
   });
   return results;
@@ -32,8 +32,8 @@ const filterAll = (data, searchTerm) => {
 // KEEP
 const filterRecipesByIngredientTag = recipes => {
   return recipes.filter(recipe => {
-    const ingredients = recipe.ingredients.map(ingredient => ingredient.ingredient.toLowerCase());
-    return recipeSearch.ingredientsTags.every(tag => ingredients.includes(tag.toLowerCase()));
+    const ingredients = recipe.ingredients.map(ingredient => ingredient.ingredient);
+    return recipeSearch.ingredientsTags.every(tag => ingredients.includes(tag));
   });
 };
 
@@ -42,7 +42,7 @@ const filterIngredientsForList = data => {
   let ingredientsList = [];
   let ingredientsSET;
   data.map(({ ingredients }) => {
-    ingredients.map(({ ingredient }) => ingredientsList.push(ingredient.toLowerCase()));
+    ingredients.map(({ ingredient }) => ingredientsList.push(ingredient));
     ingredientsSET = [...new Set(ingredientsList)];
   });
   return ingredientsSET;
@@ -78,20 +78,18 @@ const createIngredientsTags = () => {
 
 const filterRecipesByNames = (recipeSearch, name) => {
   return recipeSearch.every(searchValue => {
-    return name.toLowerCase().includes(searchValue.toLowerCase());
+    return name.includes(searchValue);
   });
 };
 
 const filterRecipesByIngredients = (recipeSearch, ingredients) => {
-  const ingredientsArray = ingredients.map(i => i.ingredient.toLowerCase());
-  return recipeSearch.every(searchValue =>
-    ingredientsArray.some(ingredient => ingredient.includes(searchValue.toLowerCase())),
-  );
+  const ingredientsArray = ingredients.map(i => i.ingredient);
+  return recipeSearch.every(searchValue => ingredientsArray.some(ingredient => ingredient.includes(searchValue)));
 };
 
 const filterRecipesByDescription = (recipeSearch, description) => {
   return recipeSearch.every(searchValue => {
-    return description.toLowerCase().includes(searchValue.toLowerCase());
+    return description.includes(searchValue);
   });
 };
 
@@ -109,11 +107,12 @@ const filterRecipes = (data, recipeSearch) => {
 
 const filterIngredients = (data, term) => {
   const results = data.filter(({ ingredients }) => {
-    return ingredients.some(i => i.ingredient.toLowerCase().includes(term));
+    return ingredients.some(i => i.ingredient.includes(term));
   });
   return results;
 };
 
+// KEEP
 const createCardsDOM = filteredData => {
   const results = document.getElementById('results');
   results.innerHTML = '';
@@ -161,6 +160,7 @@ const createCardsDOM = filteredData => {
   numberOfResults.innerHTML = `${filteredData.length} recipes available`;
 };
 
+// KEEP
 const createIngredientsDOM = list => {
   if (!list) {
     ingredientsListUL.innerHTML = '';
@@ -183,9 +183,9 @@ const createIngredientsDOM = list => {
 //   let recipeSearch = [];
 
 //   const handleIngredientClick = e => {
-//     let newTerm = e.target.textContent.toLowerCase();
+//     let newTerm = e.target.textContent;
 //     let newFilteredData = filteredData.filter(({ ingredients }) => {
-//       return ingredients.some(i => i.ingredient.toLowerCase().includes(newTerm));
+//       return ingredients.some(i => i.ingredient.includes(newTerm));
 //     });
 
 //     filteredData = [...newFilteredData];
@@ -193,7 +193,7 @@ const createIngredientsDOM = list => {
 //     let ingredientsList = [];
 //     let ingredientsSET;
 //     newFilteredData.map(({ ingredients }) => {
-//       ingredients.map(({ ingredient }) => ingredientsList.push(ingredient.toLowerCase()));
+//       ingredients.map(({ ingredient }) => ingredientsList.push(ingredient));
 //       ingredientsSET = [...new Set(ingredientsList)];
 //     });
 //     console.log('ingredientsList', ingredientsList);
@@ -224,9 +224,9 @@ const createIngredientsDOM = list => {
 //         recipeSearch = [...newrecipeSearchArray];
 
 //         const filteredRecipesIngredients = recipes.filter(({ ingredients }) => {
-//           const ingredientsArray = ingredients.map(i => i.ingredient.toLowerCase());
+//           const ingredientsArray = ingredients.map(i => i.ingredient);
 //           return newrecipeSearchArray.every(searchValue =>
-//             ingredientsArray.some(ingredient => ingredient.includes(searchValue.toLowerCase())),
+//             ingredientsArray.some(ingredient => ingredient.includes(searchValue)),
 //           );
 //         });
 //         console.log('newrecipeSearchArray', filteredRecipesIngredients);

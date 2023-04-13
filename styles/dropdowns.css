@@ -1,6 +1,10 @@
 /* @import './index.css'; */
 
 #dropdowns {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 20px;
   margin: 20px 0 70px 0;
 }
 
@@ -14,18 +18,34 @@
   font-weight: 700;
 }
 
+.btn-search i{
+  margin-left: 20px;
+}
+
 .btn-ingredients {
   background-color: var(--blue);
 }
-
 .btn-ingredients:hover {
   color: var(--white);
   background-color: var(--blue-hover);
 }
 
-.btn-ingredients i{
-  margin-left: 20px;
+.btn-appliances {
+  background-color: var(--green);
 }
+.btn-appliances:hover {
+  color: var(--white);
+  background-color: var(--green-hover);
+}
+
+.btn-utensils {
+  background-color: var(--orange);
+}
+.btn-utensils:hover {
+  color: var(--white);
+  background-color: var(--orange-hover);
+}
+
 
 .ingredients-search {
   display: none;
@@ -56,9 +76,9 @@ ul.ingredients-list {
   list-style: none;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 5px;
+  gap: 10px 5px;
   margin: 0 0 10px 0;
-  padding: 0 0 0 15px;
+  padding: 15px;
   width: 100%;
   background-color: var(--blue);
   border-radius: 0 0 5px 5px;
