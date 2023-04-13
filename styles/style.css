@@ -55,13 +55,13 @@ input:focus {
   font-size: 32px;
 }
 
-.index-ingredients{
+.ingredients-tags{
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
 }
 
-.new-ingredient{
+.ingredient-tag{
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -73,7 +73,7 @@ input:focus {
   border-radius: 5px;
 }
 
-.new-ingredient p {
+.ingredient-tag p {
   margin: 0 10px 0 0
 }
 

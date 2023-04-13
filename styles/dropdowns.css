@@ -56,7 +56,7 @@ ul.ingredients-list {
   list-style: none;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 15px;
+  gap: 5px;
   margin: 0 0 10px 0;
   padding: 0 0 0 15px;
   width: 100%;
@@ -97,7 +97,7 @@ ul {
 
 .ingredients-search li{
   cursor: pointer;
-  padding: 10px 5px ;
+  /* padding: 10px 5px ; */
 }
 
 .ingredients-search li:hover {
@@ -108,4 +108,5 @@ ul {
 .ingredients-item {
   color: var(--white);
   font-size: 18px;
+  font-weight: 400;
 }

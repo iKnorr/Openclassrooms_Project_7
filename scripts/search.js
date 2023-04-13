@@ -25,20 +25,20 @@ const inputWrapper = document.querySelector('.input-value-wrapper');
 const closeIcon = document.querySelector('.fa-circle-xmark');
 const recipesNotFound = document.querySelector('.recipe-not-found');
 const ingredientsListUL = document.querySelector('.ingredients-list');
-const indexIngredients = document.querySelector('.index-ingredients');
+
+// const recipeSearch = {
+//   commonSearch: '',
+//   filteredRecipes: [],
+//   ingredientsSearch: '',
+//   ingredientsSET: [],
+//   ingredientsTags: [],
+//   applianceSearch: '',
+//   utensilsSearch: '',
+//   utensilsTags: [],
+// };
 
 getData().then(recipes => {
   const baseRecipes = recipes;
-  const recipeSearch = {
-    commonSearch: '',
-    filteredRecipes: [],
-    ingredientsSearch: '',
-    ingredientsSET: [],
-    ingredientsTags: [],
-    applianceSearch: '',
-    utensilsSearch: '',
-    utensilstags: [],
-  };
 
   createCardsDOM(baseRecipes);
   createIngredientsDOM(filterIngredientsForList(baseRecipes));
@@ -86,11 +86,13 @@ getData().then(recipes => {
       });
     });
 
+    // Creating SET to filter out doubles
     recipeSearch.ingredientsSET = [...new Set(filteredIngredientsList)];
 
-    if (recipeSearch.ingredientsSearch.length >= 3 || !recipeSearch.ingredientsSearch.length)
-      return createIngredientsDOM(recipeSearch.ingredientsSET);
-
+    if (recipeSearch.ingredientsSearch.length >= 3 || !recipeSearch.ingredientsSearch.length) {
+      createIngredientsDOM(recipeSearch.ingredientsSET);
+    }
+    createIngredientsTags();
     console.log('SEARCH OBJECT', recipeSearch);
   });
 });
@@ -125,7 +127,7 @@ getData().then(recipes => {
 // const recipesNotFound = document.querySelector('.recipe-not-found');
 // const ingredientsSearch = document.querySelector('.ingredients-search');
 // const ingredientsListUL = document.querySelector('.ingredients-list');
-// const indexIngredients = document.querySelector('.index-ingredients');
+// const ingredientsTags = document.querySelector('.ingredients-tags');
 
 // let recipes;
 

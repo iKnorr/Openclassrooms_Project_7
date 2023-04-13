@@ -1,3 +1,23 @@
+let baseRecipes;
+
+getData().then(recipes => {
+  baseRecipes = recipes;
+});
+
+const recipeSearch = {
+  // TODO: Change all baseRecipes to recipeSearch.baseRecipes
+  // baseRecipes: baseRecipes,
+  commonSearch: '',
+  filteredRecipes: [],
+  ingredientsSearch: '',
+  ingredientsSET: [],
+  ingredientsTags: [],
+  applianceSearch: '',
+  utensilsSearch: '',
+  utensilsTags: [],
+};
+
+// KEEP
 const filterAll = (data, searchTerm) => {
   const results = data.filter(({ name, ingredients, description }) => {
     return (
@@ -7,6 +27,53 @@ const filterAll = (data, searchTerm) => {
     );
   });
   return results;
+};
+
+// KEEP
+const filterRecipesByIngredientTag = recipes => {
+  return recipes.filter(recipe => {
+    const ingredients = recipe.ingredients.map(ingredient => ingredient.ingredient.toLowerCase());
+    return recipeSearch.ingredientsTags.every(tag => ingredients.includes(tag.toLowerCase()));
+  });
+};
+
+// KEEP
+const filterIngredientsForList = data => {
+  let ingredientsList = [];
+  let ingredientsSET;
+  data.map(({ ingredients }) => {
+    ingredients.map(({ ingredient }) => ingredientsList.push(ingredient.toLowerCase()));
+    ingredientsSET = [...new Set(ingredientsList)];
+  });
+  return ingredientsSET;
+};
+
+// KEEP
+const createIngredientsTags = () => {
+  const ingredientsTags = document.querySelector('.ingredients-tags');
+  const ingredientsItems = document.querySelectorAll('.ingredients-item');
+
+  // Adding eventlistener on ingredients list
+  ingredientsItems.forEach(i => {
+    i.addEventListener('click', () => {
+      const tag = i.textContent;
+      if (!recipeSearch.ingredientsTags.includes(tag)) {
+        recipeSearch.ingredientsTags.push(tag);
+
+        // Creating ingredients tags
+        const ingredientTag = document.createElement('span');
+        ingredientTag.classList.add('ingredient-tag');
+        ingredientTag.innerHTML = `<p class="tag">${tag}</p><i class="close-index fa-regular fa-circle-xmark"></i>`;
+        ingredientsTags.appendChild(ingredientTag);
+
+        // Populate and update filteredRecipes Array
+        recipeSearch.filteredRecipes = filterRecipesByIngredientTag(baseRecipes);
+
+        createIngredientsDOM(filterIngredientsForList(recipeSearch.filteredRecipes));
+        createCardsDOM(recipeSearch.filteredRecipes);
+      }
+    });
+  });
 };
 
 const filterRecipesByNames = (recipeSearch, name) => {
@@ -45,16 +112,6 @@ const filterIngredients = (data, term) => {
     return ingredients.some(i => i.ingredient.toLowerCase().includes(term));
   });
   return results;
-};
-
-const filterIngredientsForList = data => {
-  let ingredientsList = [];
-  let ingredientsSET;
-  data.map(({ ingredients }) => {
-    ingredients.map(({ ingredient }) => ingredientsList.push(ingredient.toLowerCase()));
-    ingredientsSET = [...new Set(ingredientsList)];
-  });
-  return ingredientsSET;
 };
 
 const createCardsDOM = filteredData => {
@@ -117,71 +174,73 @@ const createIngredientsDOM = list => {
       .join('')}
       `;
   }
+
+  createIngredientsTags();
 };
 
-const createIngredientIndex = (filteredData, recipes) => {
-  const indexIngredients = document.querySelector('.index-ingredients');
-  let recipeSearch = [];
+// const createIngredientIndex = (filteredData, recipes) => {
+//   const ingredientsTags = document.querySelector('.ingredients-tags');
+//   let recipeSearch = [];
 
-  const handleIngredientClick = e => {
-    let newTerm = e.target.textContent.toLowerCase();
-    let newFilteredData = filteredData.filter(({ ingredients }) => {
-      return ingredients.some(i => i.ingredient.toLowerCase().includes(newTerm));
-    });
+//   const handleIngredientClick = e => {
+//     let newTerm = e.target.textContent.toLowerCase();
+//     let newFilteredData = filteredData.filter(({ ingredients }) => {
+//       return ingredients.some(i => i.ingredient.toLowerCase().includes(newTerm));
+//     });
 
-    filteredData = [...newFilteredData];
+//     filteredData = [...newFilteredData];
 
-    let ingredientsList = [];
-    let ingredientsSET;
-    newFilteredData.map(({ ingredients }) => {
-      ingredients.map(({ ingredient }) => ingredientsList.push(ingredient.toLowerCase()));
-      ingredientsSET = [...new Set(ingredientsList)];
-    });
-    console.log('ingredientsList', ingredientsList);
-    const newIngredientsEl = document.querySelectorAll('.new-ingredient');
-    const textContentArray = Array.from(newIngredientsEl).map(i => i.textContent);
+//     let ingredientsList = [];
+//     let ingredientsSET;
+//     newFilteredData.map(({ ingredients }) => {
+//       ingredients.map(({ ingredient }) => ingredientsList.push(ingredient.toLowerCase()));
+//       ingredientsSET = [...new Set(ingredientsList)];
+//     });
+//     console.log('ingredientsList', ingredientsList);
+//     const newIngredientsEl = document.querySelectorAll('.ingredient-tag');
+//     const textContentArray = Array.from(newIngredientsEl).map(i => i.textContent);
 
-    if (!recipeSearch.includes(newTerm) && !textContentArray.includes(newTerm)) {
-      recipeSearch.push(newTerm);
-      const newIngredient = document.createElement('span');
-      newIngredient.classList.add('new-ingredient');
-      newIngredient.innerHTML = `<p class="tag">${newTerm}</p><i class="close-index fa-regular fa-circle-xmark"></i>`;
-      indexIngredients.appendChild(newIngredient);
-    }
+//     if (!recipeSearch.includes(newTerm) && !textContentArray.includes(newTerm)) {
+//       recipeSearch.push(newTerm);
+//       const newIngredient = document.createElement('span');
+//       newIngredient.classList.add('ingredient-tag');
+//       newIngredient.innerHTML = `<p class="tag">${newTerm}</p><i class="close-index fa-regular fa-circle-xmark"></i>`;
+//       ingredientsTags.appendChild(newIngredient);
+//     }
 
-    createIngredientsDOM(ingredientsSET);
-    createCardsDOM(newFilteredData);
+//     createIngredientsDOM(ingredientsSET);
+//     createCardsDOM(newFilteredData);
 
-    const indexIngredientEL = document.querySelectorAll('.close-index');
-    indexIngredientEL.forEach(el => {
-      el.addEventListener('click', () => {
-        const removedIngredient = el.parentElement.textContent;
-        el.parentElement.remove();
+//     const indexIngredientEL = document.querySelectorAll('.close-index');
+//     indexIngredientEL.forEach(el => {
+//       el.addEventListener('click', () => {
+//         const removedIngredient = el.parentElement.textContent;
+//         el.parentElement.remove();
 
-        let newrecipeSearchArray = recipeSearch.filter(i => {
-          return !i.includes(removedIngredient);
-        });
+//         let newrecipeSearchArray = recipeSearch.filter(i => {
+//           return !i.includes(removedIngredient);
+//         });
 
-        recipeSearch = [...newrecipeSearchArray];
+//         recipeSearch = [...newrecipeSearchArray];
 
-        const filteredRecipesIngredients = recipes.filter(({ ingredients }) => {
-          const ingredientsArray = ingredients.map(i => i.ingredient.toLowerCase());
-          return newrecipeSearchArray.every(searchValue =>
-            ingredientsArray.some(ingredient => ingredient.includes(searchValue.toLowerCase())),
-          );
-        });
-        console.log('newrecipeSearchArray', filteredRecipesIngredients);
+//         const filteredRecipesIngredients = recipes.filter(({ ingredients }) => {
+//           const ingredientsArray = ingredients.map(i => i.ingredient.toLowerCase());
+//           return newrecipeSearchArray.every(searchValue =>
+//             ingredientsArray.some(ingredient => ingredient.includes(searchValue.toLowerCase())),
+//           );
+//         });
+//         console.log('newrecipeSearchArray', filteredRecipesIngredients);
 
-        createIngredientsDOM(filterIngredientsForList(filteredRecipesIngredients));
-        createCardsDOM(filteredRecipesIngredients);
-      });
-    });
-  };
+//         createIngredientsDOM(filterIngredientsForList(filteredRecipesIngredients));
+//         createCardsDOM(filteredRecipesIngredients);
+//       });
+//     });
+//   };
 
-  ingredientsListUL.addEventListener('click', handleIngredientClick);
-  // ingredientsListUL.addEventListener('click', e => {
-  //   if (e.target.matches('.ingredients-item')) {
-  //     handleIngredientClick(e);
-  //   }
-  // });
-};
+//   ingredientsListUL.addEventListener('click', handleIngredientClick);
+//   // ingredientsListUL.addEventListener('click', e => {
+//   //   if (e.target.matches('.ingredients-item')) {
+//   //     handleIngredientClick(e);
+//   //   }
+//   // });
+// };
