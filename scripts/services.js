@@ -63,7 +63,7 @@ const createIngredientsTags = () => {
         // Creating ingredients tags
         const ingredientTag = document.createElement('span');
         ingredientTag.classList.add('ingredient-tag');
-        ingredientTag.innerHTML = `<p class="tag">${tag}</p><i class="close-index fa-regular fa-circle-xmark"></i>`;
+        ingredientTag.innerHTML = `<p class="tag">${tag}</p><i class="close-tag fa-regular fa-circle-xmark"></i>`;
         ingredientsTags.appendChild(ingredientTag);
 
         // Populate and update filteredRecipes Array
@@ -71,6 +71,7 @@ const createIngredientsTags = () => {
 
         createIngredientsDOM(filterIngredientsForList(recipeSearch.filteredRecipes));
         createCardsDOM(recipeSearch.filteredRecipes);
+        getAllTags();
       }
     });
   });
@@ -177,6 +178,23 @@ const createIngredientsDOM = list => {
 
   createIngredientsTags();
 };
+const getAllTags = () => {
+  const closeTags = document.querySelectorAll('.close-tag');
+
+  closeTags.forEach(i => {
+    i.addEventListener('click', e => {
+      const closeTag = e.target.previousElementSibling.textContent;
+      recipeSearch.ingredientsTags = recipeSearch.ingredientsTags.filter(i => {
+        return i !== closeTag;
+      });
+      i.parentElement.remove();
+      recipeSearch.filteredRecipes = filterRecipesByIngredientTag(baseRecipes);
+      createIngredientsDOM(filterIngredientsForList(recipeSearch.filteredRecipes));
+      createCardsDOM(recipeSearch.filteredRecipes);
+      console.log('search OBJECT', recipeSearch);
+    });
+  });
+};
 
 // const createIngredientIndex = (filteredData, recipes) => {
 //   const ingredientsTags = document.querySelector('.ingredients-tags');
@@ -204,14 +222,14 @@ const createIngredientsDOM = list => {
 //       recipeSearch.push(newTerm);
 //       const newIngredient = document.createElement('span');
 //       newIngredient.classList.add('ingredient-tag');
-//       newIngredient.innerHTML = `<p class="tag">${newTerm}</p><i class="close-index fa-regular fa-circle-xmark"></i>`;
+//       newIngredient.innerHTML = `<p class="tag">${newTerm}</p><i class="close-tag fa-regular fa-circle-xmark"></i>`;
 //       ingredientsTags.appendChild(newIngredient);
 //     }
 
 //     createIngredientsDOM(ingredientsSET);
 //     createCardsDOM(newFilteredData);
 
-//     const indexIngredientEL = document.querySelectorAll('.close-index');
+//     const indexIngredientEL = document.querySelectorAll('.close-tag');
 //     indexIngredientEL.forEach(el => {
 //       el.addEventListener('click', () => {
 //         const removedIngredient = el.parentElement.textContent;

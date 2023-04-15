@@ -93,6 +93,8 @@ getData().then(recipes => {
       createIngredientsDOM(recipeSearch.ingredientsSET);
     }
     createIngredientsTags();
+
+    getAllTags();
     console.log('SEARCH OBJECT', recipeSearch);
   });
 });
