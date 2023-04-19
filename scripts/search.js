@@ -26,6 +26,7 @@ const chevronsDown = document.querySelectorAll('.fa-chevron-down');
 const ingredientsSearchValue = document.querySelector('.ingredients-search');
 const appliancesSearchValue = document.querySelector('.appliances-search');
 
+const ingredientsSearch = document.querySelector('.ingredients-search');
 const results = document.getElementById('results');
 
 const inputValue = document.getElementById('input-value');
@@ -55,6 +56,18 @@ getData().then(recipes => {
       e.target.style.display = 'none';
     });
   });
+  // Ingredients Dropdown Menu
+  const btnIngredients = document.querySelector('.btn-ingredients');
+  const chevronUp = document.querySelector('.fa-chevron-up');
+  btnIngredients.addEventListener('click', () => {
+    ingredientsSearch.style.display = 'block';
+    btnIngredients.style.display = 'none';
+  });
+
+  chevronUp.addEventListener('click', () => {
+    ingredientsSearch.style.display = 'none';
+    btnIngredients.style.display = 'block';
+  });
 
   const chevronsUp = document.querySelectorAll('.fa-chevron-up');
   chevronsUp.forEach(chevron => {
@@ -65,7 +78,7 @@ getData().then(recipes => {
   });
 
   // Ingredients Dropdown Menu
-  const btnIngredients = document.querySelector('.btn-ingredients');
+  // const btnIngredients = document.querySelector('.btn-ingredients');
   const btnAppliances = document.querySelector('.btn-appliances');
   // const chevronUp = document.querySelector('.fa-chevron-up');
 
@@ -101,6 +114,13 @@ getData().then(recipes => {
     if (recipeSearch.mainSearchValue.length >= 3 || !recipeSearch.mainSearchValue.length) {
       createIngredientsDOM(recipeSearch.ingredientsSET);
       createCardsDOM(recipeSearch.filteredRecipes);
+    }
+    if (recipeSearch.mainSearchValue.length >= 3) {
+      createIngredientsDOM(recipeSearch.ingredientsSET);
+      createCardsDOM(recipeSearch.filteredRecipes);
+    } else if (!recipeSearch.mainSearchValue.length) {
+      createIngredientsDOM(filterOutAllIngredients(baseRecipes));
+      createCardsDOM(baseRecipes);
     }
     console.log('MAIN SEARCH OBJECT', recipeSearch);
   });
