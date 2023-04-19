@@ -7,72 +7,115 @@ getData().then(recipes => {
 const recipeSearch = {
   // TODO: Change all baseRecipes to recipeSearch.baseRecipes
   // baseRecipes: baseRecipes,
-  commonSearch: '',
+  mainSearchValue: '',
   filteredRecipes: [],
-  ingredientsSearch: '',
+  ingredientsSearchValue: '',
   ingredientsSET: [],
   ingredientsTags: [],
+  ingredientsTEST: [],
   applianceSearch: '',
   utensilsSearch: '',
   utensilsTags: [],
 };
 
-// KEEP
-const filterAll = (data, searchTerm) => {
+// FILTER NAME, INGREDIENTS, DESCRIPTION
+const filterAll = searchTerm => {
+  const data = !recipeSearch.filteredRecipes.length ? baseRecipes : recipeSearch.filteredRecipes;
+
   const results = data.filter(({ name, ingredients, description }) => {
     return (
-      name.includes(searchTerm) ||
-      ingredients.some(i => i.ingredient.includes(searchTerm)) ||
-      description.includes(searchTerm)
+      name.toLowerCase().includes(searchTerm) ||
+      ingredients.some(i => i.ingredient.toLowerCase().includes(searchTerm)) ||
+      description.toLowerCase().includes(searchTerm)
     );
   });
   return results;
 };
+// OLD
+// const filterAll = (data, searchTerm) => {
+//   const results = data.filter(({ name, ingredients, description }) => {
+//     return (
+//       name.toLowerCase().includes(searchTerm) ||
+//       ingredients.some(i => i.ingredient.toLowerCase().includes(searchTerm)) ||
+//       description.toLowerCase().includes(searchTerm)
+//     );
+//   });
+//   return results;
+// };
 
-// KEEP
-const filterRecipesByIngredientTag = recipes => {
-  return recipes.filter(recipe => {
-    const ingredients = recipe.ingredients.map(ingredient => ingredient.ingredient);
-    return recipeSearch.ingredientsTags.every(tag => ingredients.includes(tag));
-  });
-};
-
-// KEEP
-const filterIngredientsForList = data => {
+// FILTER OUT ALL INGREDIENTS
+const filterOutAllIngredients = data => {
   let ingredientsList = [];
   let ingredientsSET;
   data.map(({ ingredients }) => {
-    ingredients.map(({ ingredient }) => ingredientsList.push(ingredient));
+    ingredients.map(({ ingredient }) => ingredientsList.push(ingredient.toLowerCase()));
     ingredientsSET = [...new Set(ingredientsList)];
   });
   return ingredientsSET;
 };
 
-// KEEP
+// CREATE TAGS FOR INGREDIENTS
 const createIngredientsTags = () => {
   const ingredientsTags = document.querySelector('.ingredients-tags');
   const ingredientsItems = document.querySelectorAll('.ingredients-item');
 
   // Adding eventlistener on ingredients list
   ingredientsItems.forEach(i => {
-    i.addEventListener('click', () => {
-      const tag = i.textContent;
+    i.addEventListener('click', e => {
+      const tag = i.textContent.toLowerCase();
       if (!recipeSearch.ingredientsTags.includes(tag)) {
         recipeSearch.ingredientsTags.push(tag);
-
-        // Creating ingredients tags
-        const ingredientTag = document.createElement('span');
-        ingredientTag.classList.add('ingredient-tag');
-        ingredientTag.innerHTML = `<p class="tag">${tag}</p><i class="close-tag fa-regular fa-circle-xmark"></i>`;
-        ingredientsTags.appendChild(ingredientTag);
-
-        // Populate and update filteredRecipes Array
-        recipeSearch.filteredRecipes = filterRecipesByIngredientTag(baseRecipes);
-
-        createIngredientsDOM(filterIngredientsForList(recipeSearch.filteredRecipes));
-        createCardsDOM(recipeSearch.filteredRecipes);
-        getAllTags();
       }
+      // Creating ingredients tags
+      const ingredientTag = document.createElement('span');
+      ingredientTag.classList.add('ingredient-tag');
+      ingredientTag.innerHTML = `<p class="tag">${tag}</p><i class="close-tag fa-regular fa-circle-xmark"></i>`;
+      ingredientsTags.appendChild(ingredientTag);
+
+      if (!recipeSearch.ingredientsSearchValue.trim()) {
+        recipeSearch.filteredRecipes = filterRecipesByIngredientTags(baseRecipes);
+        createIngredientsDOM(filterOutAllIngredients(recipeSearch.filteredRecipes));
+        createCardsDOM(recipeSearch.filteredRecipes);
+        deleteTag();
+      } else {
+        recipeSearch.filteredRecipes = filterRecipesByIngredientTags(recipeSearch.filteredRecipes);
+        console.log('TESTY', filterTest(recipeSearch.filteredRecipes));
+        // createIngredientsDOM(filterOutAllIngredients(recipeSearch.filteredRecipes));
+        createIngredientsDOM(recipeSearch.ingredientsSET);
+        // createIngredientsDOM(recipeSearch.ingredientsTags);
+        createCardsDOM(recipeSearch.filteredRecipes);
+        deleteTag();
+      }
+      console.log('TAGS SEARCH OBJECT', recipeSearch);
+    });
+  });
+};
+
+const deleteTag = () => {
+  const closeTags = document.querySelectorAll('.close-tag');
+
+  closeTags.forEach(i => {
+    i.addEventListener('click', e => {
+      const closeTag = e.target.previousElementSibling.textContent;
+      recipeSearch.ingredientsTags = recipeSearch.ingredientsTags.filter(i => {
+        return i !== closeTag;
+      });
+      i.parentElement.remove();
+
+      if (!recipeSearch.ingredientsSearchValue.trim()) {
+        recipeSearch.filteredRecipes = filterRecipesByIngredientTags(baseRecipes);
+        createIngredientsDOM(filterOutAllIngredients(recipeSearch.filteredRecipes));
+        createCardsDOM(recipeSearch.filteredRecipes);
+      } else {
+        recipeSearch.filteredRecipes = filterRecipesByIngredientTags(recipeSearch.filteredRecipes);
+        createIngredientsDOM(recipeSearch.ingredientsSET);
+        createCardsDOM(recipeSearch.filteredRecipes);
+      }
+
+      // recipeSearch.filteredRecipes = filterRecipesByIngredientTags(baseRecipes);
+      // createIngredientsDOM(filterOutAllIngredients(recipeSearch.filteredRecipes));
+      // createCardsDOM(recipeSearch.filteredRecipes);
+      console.log('DELETE TAG SEARCH OBJECT', recipeSearch);
     });
   });
 };
@@ -105,6 +148,19 @@ const filterRecipes = (data, recipeSearch) => {
 
   return results;
 };
+// KEEP
+const filterRecipesByIngredientTags = recipes => {
+  return recipes.filter(recipe => {
+    const ingredients = recipe.ingredients.map(ingredient => ingredient.ingredient.toLowerCase());
+    return recipeSearch.ingredientsTags.every(tag => ingredients.includes(tag));
+  });
+};
+const filterTest = recipes => {
+  return recipes.filter(recipe => {
+    const ingredients = recipe.ingredients.map(ingredient => ingredient.ingredient.toLowerCase());
+    return recipeSearch.ingredientsSET.some(tag => ingredients.includes(tag));
+  });
+};
 
 const filterIngredients = (data, term) => {
   const results = data.filter(({ ingredients }) => {
@@ -113,13 +169,13 @@ const filterIngredients = (data, term) => {
   return results;
 };
 
-// KEEP
+// CREATE DOM FOR CARDS
 const createCardsDOM = filteredData => {
   const results = document.getElementById('results');
   results.innerHTML = '';
 
-  if (filteredData.length === 0) {
-    recipesNotFound.innerHTML = `Aucune recette ne correspond à votre critère &#9785;. Vous pouvez chercher « coco », « poisson », etc.`;
+  if (!filteredData.length) {
+    recipesNotFound.innerHTML = `Aucune recette ne correspond à votre critère &#9785;. Vous pouvez chercher « lait », « poulet », etc.`;
   }
 
   filteredData.forEach(({ name, time, ingredients, description }) => {
@@ -142,7 +198,7 @@ const createCardsDOM = filteredData => {
               <div class="ingredients">
                 <ul>${ingredients
                   .map(({ ingredient, unit, quantity }) => {
-                    return `<li><b>${ingredient}:</b> ${ingredient ? quantity : ''} ${
+                    return `<li><b>${ingredient}:</b> ${ingredient ? (quantity ? quantity : '') : ''} ${
                       unit ? (unit === 'grammes' ? 'g' : unit) : ''
                     }</li>`;
                   })
@@ -161,9 +217,11 @@ const createCardsDOM = filteredData => {
   numberOfResults.innerHTML = `${filteredData.length} recipes available`;
 };
 
-// KEEP
+// CREATE DOM FOR INGREDIENTS
 const createIngredientsDOM = list => {
   if (!list) {
+    // ingredientsListUL.style.display = 'none';
+    // ingredientsListUL.innerHTML = `Aucune ingredients ne correspond à votre critère &#9785;. Vous pouvez chercher « lait », « poulet », etc.`;
     ingredientsListUL.innerHTML = '';
     searchBarIngredients.style.borderRadius = '5px';
   } else {
@@ -178,87 +236,3 @@ const createIngredientsDOM = list => {
 
   createIngredientsTags();
 };
-const getAllTags = () => {
-  const closeTags = document.querySelectorAll('.close-tag');
-
-  closeTags.forEach(i => {
-    i.addEventListener('click', e => {
-      const closeTag = e.target.previousElementSibling.textContent;
-      recipeSearch.ingredientsTags = recipeSearch.ingredientsTags.filter(i => {
-        return i !== closeTag;
-      });
-      i.parentElement.remove();
-      recipeSearch.filteredRecipes = filterRecipesByIngredientTag(baseRecipes);
-      createIngredientsDOM(filterIngredientsForList(recipeSearch.filteredRecipes));
-      createCardsDOM(recipeSearch.filteredRecipes);
-      console.log('search OBJECT', recipeSearch);
-    });
-  });
-};
-
-// const createIngredientIndex = (filteredData, recipes) => {
-//   const ingredientsTags = document.querySelector('.ingredients-tags');
-//   let recipeSearch = [];
-
-//   const handleIngredientClick = e => {
-//     let newTerm = e.target.textContent;
-//     let newFilteredData = filteredData.filter(({ ingredients }) => {
-//       return ingredients.some(i => i.ingredient.includes(newTerm));
-//     });
-
-//     filteredData = [...newFilteredData];
-
-//     let ingredientsList = [];
-//     let ingredientsSET;
-//     newFilteredData.map(({ ingredients }) => {
-//       ingredients.map(({ ingredient }) => ingredientsList.push(ingredient));
-//       ingredientsSET = [...new Set(ingredientsList)];
-//     });
-//     console.log('ingredientsList', ingredientsList);
-//     const newIngredientsEl = document.querySelectorAll('.ingredient-tag');
-//     const textContentArray = Array.from(newIngredientsEl).map(i => i.textContent);
-
-//     if (!recipeSearch.includes(newTerm) && !textContentArray.includes(newTerm)) {
-//       recipeSearch.push(newTerm);
-//       const newIngredient = document.createElement('span');
-//       newIngredient.classList.add('ingredient-tag');
-//       newIngredient.innerHTML = `<p class="tag">${newTerm}</p><i class="close-tag fa-regular fa-circle-xmark"></i>`;
-//       ingredientsTags.appendChild(newIngredient);
-//     }
-
-//     createIngredientsDOM(ingredientsSET);
-//     createCardsDOM(newFilteredData);
-
-//     const indexIngredientEL = document.querySelectorAll('.close-tag');
-//     indexIngredientEL.forEach(el => {
-//       el.addEventListener('click', () => {
-//         const removedIngredient = el.parentElement.textContent;
-//         el.parentElement.remove();
-
-//         let newrecipeSearchArray = recipeSearch.filter(i => {
-//           return !i.includes(removedIngredient);
-//         });
-
-//         recipeSearch = [...newrecipeSearchArray];
-
-//         const filteredRecipesIngredients = recipes.filter(({ ingredients }) => {
-//           const ingredientsArray = ingredients.map(i => i.ingredient);
-//           return newrecipeSearchArray.every(searchValue =>
-//             ingredientsArray.some(ingredient => ingredient.includes(searchValue)),
-//           );
-//         });
-//         console.log('newrecipeSearchArray', filteredRecipesIngredients);
-
-//         createIngredientsDOM(filterIngredientsForList(filteredRecipesIngredients));
-//         createCardsDOM(filteredRecipesIngredients);
-//       });
-//     });
-//   };
-
-//   ingredientsListUL.addEventListener('click', handleIngredientClick);
-//   // ingredientsListUL.addEventListener('click', e => {
-//   //   if (e.target.matches('.ingredients-item')) {
-//   //     handleIngredientClick(e);
-//   //   }
-//   // });
-// };
