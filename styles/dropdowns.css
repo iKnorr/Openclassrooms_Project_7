@@ -1,5 +1,4 @@
-/* @import './index.css'; */
-
+/* Dropdowns */
 #dropdowns {
   display: flex;
   justify-content: flex-start;
@@ -9,7 +8,7 @@
   margin: 20px 0 70px 0;
 }
 
-#dropdowns input{
+#dropdowns input {
   padding: 0 0 0 20px;
   height: 69px;
   width: 100%;
@@ -18,7 +17,6 @@
   color: var(--white);
   border-radius: 5px 5px 0 0;
 }
-
 
 #dropdowns input:focus {
   outline: none;
@@ -33,7 +31,7 @@
   font-size: 18px;
 }
 
-#dropdowns li{
+#dropdowns li {
   cursor: pointer;
   /* padding: 10px 5px ; */
 }
@@ -43,35 +41,35 @@
   background-color: var(--blue-hover);
 }
 
-.specific-search-bar-wrapper i{
+.specific-search-bar-wrapper i {
   position: absolute;
   top: 25px;
   right: 20px;
   color: var(--white);
 }
 
-input.specific-search-bar.search-bar-utensils{
+input.specific-search-bar.search-bar-utensils {
   background-color: var(--orange);
 }
-input.specific-search-bar.search-bar-utensils:focus{
+input.specific-search-bar.search-bar-utensils:focus {
   background-color: var(--orange);
 }
 
-input.specific-search-bar.search-bar-appliances{
+input.specific-search-bar.search-bar-appliances {
   background-color: var(--green);
 }
-input.specific-search-bar.search-bar-appliances:focus{
+input.specific-search-bar.search-bar-appliances:focus {
   background-color: var(--green);
 }
 
-input.specific-search-bar.search-bar-ingredients{
+input.specific-search-bar.search-bar-ingredients {
   background-color: var(--blue);
 }
-input.specific-search-bar.search-bar-ingredients:focus{
+input.specific-search-bar.search-bar-ingredients:focus {
   background-color: var(--blue);
 }
 
-.btn-search{
+.btn-search {
   width: 170px;
   height: 69px;
   border-radius: 5px;
@@ -81,7 +79,8 @@ input.specific-search-bar.search-bar-ingredients:focus{
   font-weight: 700;
 }
 
-.btn-search i{
+/* Buttons */
+.btn-search i {
   margin-left: 20px;
 }
 
@@ -122,11 +121,12 @@ input.specific-search-bar.search-bar-ingredients:focus{
   cursor: pointer;
 }
 
-.show{
+.show {
   display: block;
 }
 
-.ingredients-search i{
+.ingredients-search i {
+  /* pointer-events: none; */
   position: absolute;
   top: 25px;
   right: 20px;
@@ -141,6 +141,7 @@ ul.ingredients-list {
   gap: 10px 5px;
   margin: 0 0 10px 0;
   padding: 15px;
+  max-height: 400px;
   width: 100%;
   background-color: var(--blue);
   border-radius: 0 0 5px 5px;
@@ -152,7 +153,6 @@ ul.ingredients-list {
 ul {
   text-decoration: none;
 }
-
 
 .specific-search-bar input {
   padding: 0 0 0 20px;
@@ -178,7 +178,7 @@ ul {
   font-size: 18px;
 }
 
-.specific-search-bar li{
+.specific-search-bar li {
   cursor: pointer;
   /* padding: 10px 5px ; */
 }

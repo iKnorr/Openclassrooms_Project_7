@@ -42,31 +42,17 @@ getData().then(recipes => {
   createIngredientsDOM(filterOutAllIngredients(baseRecipes));
 
   // Dropdown menus
-  chevronsDown.forEach(chevron => {
-    chevron.addEventListener('click', e => {
-      console.log('click');
-      e.target.parentElement.previousElementSibling.style.display = 'none';
-      e.target.parentElement.style.display = 'block';
+  dropdownBtns.forEach(btn => {
+    btn.addEventListener('click', e => {
+      const target = e.target;
+      if (target.classList.contains('fa-chevron-down')) {
+        target.parentElement.style.display = 'none';
+        target.parentElement.nextElementSibling.style.display = 'block';
+      } else if (target.classList.contains('btn-search')) {
+        target.nextElementSibling.style.display = 'block';
+        target.style.display = 'none';
+      }
     });
-  });
-
-  dropdownBtns.forEach(s => {
-    s.addEventListener('click', e => {
-      e.target.nextElementSibling.style.display = 'block';
-      e.target.style.display = 'none';
-    });
-  });
-  // Ingredients Dropdown Menu
-  const btnIngredients = document.querySelector('.btn-ingredients');
-  const chevronUp = document.querySelector('.fa-chevron-up');
-  btnIngredients.addEventListener('click', () => {
-    ingredientsSearch.style.display = 'block';
-    btnIngredients.style.display = 'none';
-  });
-
-  chevronUp.addEventListener('click', () => {
-    ingredientsSearch.style.display = 'none';
-    btnIngredients.style.display = 'block';
   });
 
   const chevronsUp = document.querySelectorAll('.fa-chevron-up');
@@ -76,26 +62,6 @@ getData().then(recipes => {
       e.target.parentElement.style.display = 'none';
     });
   });
-
-  // Ingredients Dropdown Menu
-  // const btnIngredients = document.querySelector('.btn-ingredients');
-  const btnAppliances = document.querySelector('.btn-appliances');
-  // const chevronUp = document.querySelector('.fa-chevron-up');
-
-  // btnIngredients.addEventListener('click', () => {
-  //   ingredientsSearchValue.style.display = 'block';
-  //   btnIngredients.style.display = 'none';
-  // });
-
-  // btnAppliances.addEventListener('click', () => {
-  //   appliancesSearchValue.style.display = 'block';
-  //   btnAppliances.style.display = 'none';
-  // });
-
-  // chevronUp.addEventListener('click', () => {
-  //   ingredientsSearchValue.style.display = 'none';
-  //   btnIngredients.style.display = 'block';
-  // });
 
   // Global Search in names, description and ingredients
   searchBar.addEventListener('input', e => {

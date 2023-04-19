@@ -45,6 +45,8 @@ const filterOutAllIngredients = data => {
 const createIngredientsTags = () => {
   const ingredientsTags = document.querySelector('.ingredients-tags');
   const ingredientsItems = document.querySelectorAll('.ingredients-item');
+  const btnIngredients = document.querySelector('.btn-ingredients');
+  const ingredientsSearch = document.querySelector('.ingredients-search');
 
   // Adding eventlistener on ingredients list
   ingredientsItems.forEach(i => {
@@ -68,6 +70,8 @@ const createIngredientsTags = () => {
           recipeSearch.filteredRecipes = filterRecipesByIngredientTags(recipeSearch.filteredRecipes);
           recipeSearch.ingredientsSearchValue = '';
           searchBarIngredients.value = '';
+          ingredientsSearch.style.display = 'none';
+          btnIngredients.style.display = 'block';
           createIngredientsDOM(filterOutAllIngredients(recipeSearch.filteredRecipes));
           createCardsDOM(recipeSearch.filteredRecipes);
           deleteTag();
