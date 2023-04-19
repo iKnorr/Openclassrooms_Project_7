@@ -21,6 +21,7 @@ const searchBarIngredients = document.querySelector('.search-bar-ingredients');
 
 const dropdownBtns = document.querySelectorAll('.btn-search');
 const specificSearchBars = document.querySelectorAll('.specific-search-bar-wrapper');
+const chevronsDown = document.querySelectorAll('.fa-chevron-down');
 
 const ingredientsSearchValue = document.querySelector('.ingredients-search');
 const appliancesSearchValue = document.querySelector('.appliances-search');
@@ -40,6 +41,14 @@ getData().then(recipes => {
   createIngredientsDOM(filterOutAllIngredients(baseRecipes));
 
   // Dropdown menus
+  chevronsDown.forEach(chevron => {
+    chevron.addEventListener('click', e => {
+      console.log('click');
+      e.target.parentElement.previousElementSibling.style.display = 'none';
+      e.target.parentElement.style.display = 'block';
+    });
+  });
+
   dropdownBtns.forEach(s => {
     s.addEventListener('click', e => {
       e.target.nextElementSibling.style.display = 'block';
