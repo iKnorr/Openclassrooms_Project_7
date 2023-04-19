@@ -4,8 +4,71 @@
   display: flex;
   justify-content: flex-start;
   align-items: center;
+  flex-wrap: wrap;
   gap: 20px;
   margin: 20px 0 70px 0;
+}
+
+#dropdowns input{
+  padding: 0 0 0 20px;
+  height: 69px;
+  width: 100%;
+  /* background-color: var(--blue); */
+  border: none;
+  color: var(--white);
+  border-radius: 5px 5px 0 0;
+}
+
+
+#dropdowns input:focus {
+  outline: none;
+  border: none;
+  box-shadow: none;
+  color: var(--white);
+  font-size: 18px;
+}
+
+#dropdowns input::placeholder {
+  color: var(--grey-light);
+  font-size: 18px;
+}
+
+#dropdowns li{
+  cursor: pointer;
+  /* padding: 10px 5px ; */
+}
+
+#dropdowns li:hover {
+  color: var(--white);
+  background-color: var(--blue-hover);
+}
+
+.specific-search-bar-wrapper i{
+  position: absolute;
+  top: 25px;
+  right: 20px;
+  color: var(--white);
+}
+
+input.specific-search-bar.search-bar-utensils{
+  background-color: var(--orange);
+}
+input.specific-search-bar.search-bar-utensils:focus{
+  background-color: var(--orange);
+}
+
+input.specific-search-bar.search-bar-appliances{
+  background-color: var(--green);
+}
+input.specific-search-bar.search-bar-appliances:focus{
+  background-color: var(--green);
+}
+
+input.specific-search-bar.search-bar-ingredients{
+  background-color: var(--blue);
+}
+input.specific-search-bar.search-bar-ingredients:focus{
+  background-color: var(--blue);
 }
 
 .btn-search{
@@ -46,8 +109,7 @@
   background-color: var(--orange-hover);
 }
 
-
-.ingredients-search {
+.specific-search-bar-wrapper {
   display: none;
   position: relative;
   width: 600px;
@@ -91,7 +153,8 @@ ul {
   text-decoration: none;
 }
 
-.ingredients-search input {
+
+.specific-search-bar input {
   padding: 0 0 0 20px;
   height: 69px;
   width: 100%;
@@ -101,7 +164,7 @@ ul {
   border-radius: 5px 5px 0 0;
 }
 
-.ingredients-search input:focus {
+.specific-search-bar input:focus {
   outline: none;
   border: none;
   box-shadow: none;
@@ -110,17 +173,17 @@ ul {
   font-size: 18px;
 }
 
-.ingredients-search input::placeholder {
+.specific-search-bar input::placeholder {
   color: var(--grey-light);
   font-size: 18px;
 }
 
-.ingredients-search li{
+.specific-search-bar li{
   cursor: pointer;
   /* padding: 10px 5px ; */
 }
 
-.ingredients-search li:hover {
+.specific-search-bar li:hover {
   color: var(--white);
   background-color: var(--blue-hover);
 }
