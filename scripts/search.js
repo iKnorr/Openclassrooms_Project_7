@@ -17,7 +17,7 @@
 // };
 const searchBar = document.getElementById('search-bar-common');
 const searchBarIngredients = document.getElementById('search-bar-ingredients');
-const ingredientsSearchValue = document.querySelector('.ingredients-search');
+const ingredientsSearch = document.querySelector('.ingredients-search');
 const results = document.getElementById('results');
 
 const inputValue = document.getElementById('input-value');
@@ -36,12 +36,12 @@ getData().then(recipes => {
   const btnIngredients = document.querySelector('.btn-ingredients');
   const chevronUp = document.querySelector('.fa-chevron-up');
   btnIngredients.addEventListener('click', () => {
-    ingredientsSearchValue.style.display = 'block';
+    ingredientsSearch.style.display = 'block';
     btnIngredients.style.display = 'none';
   });
 
   chevronUp.addEventListener('click', () => {
-    ingredientsSearchValue.style.display = 'none';
+    ingredientsSearch.style.display = 'none';
     btnIngredients.style.display = 'block';
   });
 
@@ -62,6 +62,13 @@ getData().then(recipes => {
     if (recipeSearch.mainSearchValue.length >= 3 || !recipeSearch.mainSearchValue.length) {
       createIngredientsDOM(recipeSearch.ingredientsSET);
       createCardsDOM(recipeSearch.filteredRecipes);
+    }
+    if (recipeSearch.mainSearchValue.length >= 3) {
+      createIngredientsDOM(recipeSearch.ingredientsSET);
+      createCardsDOM(recipeSearch.filteredRecipes);
+    } else if (!recipeSearch.mainSearchValue.length) {
+      createIngredientsDOM(filterOutAllIngredients(baseRecipes));
+      createCardsDOM(baseRecipes);
     }
     console.log('MAIN SEARCH OBJECT', recipeSearch);
   });
