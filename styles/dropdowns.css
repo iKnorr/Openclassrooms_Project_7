@@ -36,10 +36,10 @@
   /* padding: 10px 5px ; */
 }
 
-#dropdowns li:hover {
+/* #dropdowns li:hover {
   color: var(--white);
   background-color: var(--blue-hover);
-}
+} */
 
 .specific-search-bar-wrapper i {
   position: absolute;
@@ -133,7 +133,11 @@ input.specific-search-bar.search-bar-ingredients:focus {
   color: var(--white);
 }
 
-ul.ingredients-list {
+ul {
+  text-decoration: none;
+}
+
+ul.type-list {
   position: absolute;
   list-style: none;
   display: grid;
@@ -143,15 +147,20 @@ ul.ingredients-list {
   padding: 15px;
   max-height: 400px;
   width: 100%;
-  background-color: var(--blue);
   border-radius: 0 0 5px 5px;
   overflow: scroll;
   box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
-  z-index: 200;
+  z-index: 5;
 }
 
-ul {
-  text-decoration: none;
+ul.ingredients-list {
+  background-color: var(--blue);
+}
+ul.appliances-list {
+  background-color: var(--green);
+}
+ul.utensils-list {
+  background-color: var(--orange);
 }
 
 .specific-search-bar input {
@@ -178,18 +187,23 @@ ul {
   font-size: 18px;
 }
 
-.specific-search-bar li {
+.list-item {
   cursor: pointer;
-  /* padding: 10px 5px ; */
-}
-
-.specific-search-bar li:hover {
-  color: var(--white);
-  background-color: var(--blue-hover);
-}
-
-.ingredients-item {
   color: var(--white);
   font-size: 18px;
   font-weight: 400;
+}
+
+.list-item  {
+  color: var(--white);
+}
+
+.ingredients-item:hover {
+  background-color: var(--blue-hover);
+}
+.appliances-item:hover {
+  background-color: var(--green-hover);
+}
+.utensils-item:hover {
+  background-color: var(--orange-hover);
 }

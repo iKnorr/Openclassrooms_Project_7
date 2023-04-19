@@ -15,31 +15,48 @@
 // const showInputValue = () => {
 //   inputValue.innerHTML = `${searchTerm}`;
 // };
+const inputValue = document.getElementById('input-value');
+const inputWrapper = document.querySelector('.input-value-wrapper');
+
+// SEARCH BARS
 const searchBar = document.getElementById('search-bar-common');
-
 const searchBarIngredients = document.querySelector('.search-bar-ingredients');
-
+const searchBarAppliances = document.querySelector('.search-bar-appliances');
+const searchBarUtensils = document.querySelector('.search-bar-utensils');
+// Dropdown
 const dropdownBtns = document.querySelectorAll('.btn-search');
 const specificSearchBars = document.querySelectorAll('.specific-search-bar-wrapper');
 const chevronsDown = document.querySelectorAll('.fa-chevron-down');
-
+// Search values
 const ingredientsSearchValue = document.querySelector('.ingredients-search');
 const appliancesSearchValue = document.querySelector('.appliances-search');
+const utensilsSearchValue = document.querySelector('.utensils-search');
 
 const ingredientsSearch = document.querySelector('.ingredients-search');
 const results = document.getElementById('results');
-
-const inputValue = document.getElementById('input-value');
-const inputWrapper = document.querySelector('.input-value-wrapper');
-const closeIcon = document.querySelector('.fa-circle-xmark');
 const recipesNotFound = document.querySelector('.recipe-not-found');
+// Close tags
+const closeIcon = document.querySelector('.fa-circle-xmark');
+// Type lists
 const ingredientsListUL = document.querySelector('.ingredients-list');
+const appliancesListUL = document.querySelector('.appliances-list');
+const utensilsListUL = document.querySelector('.utensils-list');
+
+const createAppliancesForCommonSearch = data => {
+  let appliancesList = [];
+  data.map(({ appliance }) => {
+    appliancesList.push(appliance);
+  });
+  recipeSearch.applianceSET = [...new Set(appliancesList)];
+  return recipeSearch.applianceSET;
+};
 
 getData().then(recipes => {
   const baseRecipes = recipes;
 
   createCardsDOM(baseRecipes);
-  createIngredientsDOM(filterOutAllIngredients(baseRecipes));
+  createAppliancesDOM(createAppliancesForCommonSearch(baseRecipes));
+  createIngredientsDOM(filterOutAllTypes(baseRecipes));
 
   // Dropdown menus
   dropdownBtns.forEach(btn => {
@@ -63,30 +80,46 @@ getData().then(recipes => {
     });
   });
 
-  // Global Search in names, description and ingredients
-  searchBar.addEventListener('input', e => {
-    recipeSearch.mainSearchValue = e.target.value.toLowerCase();
-    recipeSearch.filteredRecipes = filterAll(recipeSearch.mainSearchValue);
-
+  const createIngredientsForCommonSearch = () => {
     let filteredIngredientsList = [];
     recipeSearch.filteredRecipes.map(({ ingredients }) => {
       ingredients.map(({ ingredient }) => {
         filteredIngredientsList.push(ingredient.toLowerCase());
       });
     });
-    // Creating SET to filter out doubles
     recipeSearch.ingredientsSET = [...new Set(filteredIngredientsList)];
+    return recipeSearch.ingredientsSET;
+  };
 
-    if (recipeSearch.mainSearchValue.length >= 3 || !recipeSearch.mainSearchValue.length) {
-      createIngredientsDOM(recipeSearch.ingredientsSET);
-      createCardsDOM(recipeSearch.filteredRecipes);
-    }
+  const createUstensilsForCommonSearch = () => {
+    let utensilsList = [];
+    recipeSearch.filteredRecipes.map(({ utensils }) => {
+      utensils.map(utensil => {
+        utensilsList.push(utensil);
+      });
+    });
+    recipeSearch.utensilsSET = [...new Set(utensilsList)];
+    return recipeSearch.utensilsSET;
+  };
+
+  // Common search
+  searchBar.addEventListener('input', e => {
+    recipeSearch.mainSearchValue = e.target.value.toLowerCase();
+    recipeSearch.filteredRecipes = filterAll(recipeSearch.mainSearchValue);
+
+    createIngredientsForCommonSearch();
+    createAppliancesForCommonSearch(recipeSearch.filteredRecipes);
+    createUstensilsForCommonSearch();
+
     if (recipeSearch.mainSearchValue.length >= 3) {
       createIngredientsDOM(recipeSearch.ingredientsSET);
+      createAppliancesDOM(recipeSearch.applianceSET);
       createCardsDOM(recipeSearch.filteredRecipes);
     } else if (!recipeSearch.mainSearchValue.length) {
-      createIngredientsDOM(filterOutAllIngredients(baseRecipes));
+      createIngredientsDOM(filterOutAllTypes(baseRecipes));
+      createAppliancesDOM(createAppliancesForCommonSearch(baseRecipes));
       createCardsDOM(baseRecipes);
+      recipeSearch.filteredRecipes = baseRecipes;
     }
     console.log('MAIN SEARCH OBJECT', recipeSearch);
   });
@@ -112,7 +145,7 @@ getData().then(recipes => {
       createIngredientsDOM(recipeSearch.ingredientsSET);
     } else if (!recipeSearch.ingredientsSearchValue.length) {
       recipeSearch.filteredRecipes = baseRecipes;
-      createIngredientsDOM(filterOutAllIngredients(baseRecipes));
+      createIngredientsDOM(filterOutAllTypes(baseRecipes));
     }
     console.log('INGREDIENTS SEARCH OBJECT', recipeSearch);
   });

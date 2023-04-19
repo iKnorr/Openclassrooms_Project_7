@@ -10,10 +10,12 @@ const recipeSearch = {
   ingredientsSearchValue: '',
   ingredientsSET: [],
   ingredientsTags: [],
-  ingredientsTEST: [],
-  applianceSearch: '',
-  utensilsSearch: '',
+  applianceSearchValue: '',
+  applianceTags: [],
+  applianceSET: [],
+  utensilsSearchValue: '',
   utensilsTags: [],
+  utensilsSET: [],
 };
 
 // FILTER NAME, INGREDIENTS, DESCRIPTION
@@ -31,15 +33,25 @@ const filterAll = searchTerm => {
 };
 
 // FILTER OUT ALL INGREDIENTS
-const filterOutAllIngredients = data => {
-  let ingredientsList = [];
-  let ingredientsSET;
+const filterOutAllTypes = data => {
+  let list = [];
+  let set;
   data.map(({ ingredients }) => {
-    ingredients.map(({ ingredient }) => ingredientsList.push(ingredient.toLowerCase()));
-    ingredientsSET = [...new Set(ingredientsList)];
+    ingredients.map(({ ingredient }) => list.push(ingredient.toLowerCase()));
+    set = [...new Set(list)];
   });
-  return ingredientsSET;
+  return set;
 };
+// OLD FOR JUST INGREDIENTS
+// const filterOutAllTypes = data => {
+//   let ingredientsList = [];
+//   let ingredientsSET;
+//   data.map(({ ingredients }) => {
+//     ingredients.map(({ ingredient }) => ingredientsList.push(ingredient.toLowerCase()));
+//     ingredientsSET = [...new Set(ingredientsList)];
+//   });
+//   return ingredientsSET;
+// };
 
 // CREATE TAGS FOR INGREDIENTS
 const createIngredientsTags = () => {
@@ -63,7 +75,7 @@ const createIngredientsTags = () => {
 
         if (!recipeSearch.ingredientsSearchValue.trim()) {
           recipeSearch.filteredRecipes = filterRecipesByIngredientTags(baseRecipes);
-          createIngredientsDOM(filterOutAllIngredients(recipeSearch.filteredRecipes));
+          createIngredientsDOM(filterOutAllTypes(recipeSearch.filteredRecipes));
           createCardsDOM(recipeSearch.filteredRecipes);
           deleteTag();
         } else {
@@ -72,7 +84,7 @@ const createIngredientsTags = () => {
           searchBarIngredients.value = '';
           ingredientsSearch.style.display = 'none';
           btnIngredients.style.display = 'block';
-          createIngredientsDOM(filterOutAllIngredients(recipeSearch.filteredRecipes));
+          createIngredientsDOM(filterOutAllTypes(recipeSearch.filteredRecipes));
           createCardsDOM(recipeSearch.filteredRecipes);
           deleteTag();
         }
@@ -95,7 +107,7 @@ const deleteTag = () => {
 
       if (!recipeSearch.ingredientsSearchValue.trim()) {
         recipeSearch.filteredRecipes = filterRecipesByIngredientTags(baseRecipes);
-        createIngredientsDOM(filterOutAllIngredients(recipeSearch.filteredRecipes));
+        createIngredientsDOM(filterOutAllTypes(recipeSearch.filteredRecipes));
         createCardsDOM(recipeSearch.filteredRecipes);
       } else {
         recipeSearch.filteredRecipes = filterRecipesByIngredientTags(recipeSearch.filteredRecipes);
@@ -165,19 +177,30 @@ const createCardsDOM = filteredData => {
 // CREATE DOM FOR INGREDIENTS
 const createIngredientsDOM = list => {
   if (!list) {
-    // ingredientsListUL.style.display = 'none';
-    // ingredientsListUL.innerHTML = `Aucune ingredients ne correspond à votre critère &#9785;. Vous pouvez chercher « lait », « poulet », etc.`;
-    ingredientsListUL.innerHTML = '';
     searchBarIngredients.style.borderRadius = '5px';
   } else {
     searchBarIngredients.style.borderRadius = '5px 5px 0 0';
     ingredientsListUL.innerHTML = `${list
       .map(i => {
-        return `<li class="ingredients-item">${i}</li>`;
+        return `<li class="list-item ingredients-item">${i}</li>`;
       })
       .join('')}
       `;
   }
 
   createIngredientsTags();
+};
+
+const createAppliancesDOM = list => {
+  if (!list) {
+    searchBarIngredients.style.borderRadius = '5px';
+  } else {
+    searchBarAppliances.style.borderRadius = '5px 5px 0 0';
+    appliancesListUL.innerHTML = `${list
+      .map(i => {
+        return `<li class="list-item appliances-item">${i}</li>`;
+      })
+      .join('')}
+      `;
+  }
 };
