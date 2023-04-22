@@ -31,14 +31,16 @@ input#search-bar-common {
   padding: 0 20px;
   background-color: var(--grey-light);
   border-radius: 5px;
-  border: none
+  border: none;
 }
 
 /* Remove x on focus on input elements */
-input[type="search"]::-webkit-search-decoration,
-input[type="search"]::-webkit-search-cancel-button,
-input[type="search"]::-webkit-search-results-button,
-input[type="search"]::-webkit-search-results-decoration { display: none; }
+input[type='search']::-webkit-search-decoration,
+input[type='search']::-webkit-search-cancel-button,
+input[type='search']::-webkit-search-results-button,
+input[type='search']::-webkit-search-results-decoration {
+  display: none;
+}
 
 input:focus {
   outline: none;
@@ -55,13 +57,13 @@ input:focus {
   font-size: 32px;
 }
 
-.ingredients-tags{
+.ingredients-tags {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
 }
 
-.ingredient-tag{
+.ingredients-tag {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -73,8 +75,8 @@ input:focus {
   border-radius: 5px;
 }
 
-.ingredient-tag p {
-  margin: 0 10px 0 0
+.ingredients-tag p {
+  margin: 0 10px 0 0;
 }
 
 .input-value-wrapper {

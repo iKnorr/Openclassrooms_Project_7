@@ -70,18 +70,21 @@ const createUtensilsSet = data => {
 getData().then(recipes => {
   const baseRecipes = recipes;
 
-  const ingredientsArgs = {
+  createCardsDOM(baseRecipes);
+  createTypesDOM({
     typeSet: createIngredientsSet(baseRecipes),
     searchBar: searchBarIngredients,
     listUl: ingredientsListUL,
     type: 'ingredients',
-    createTags: createIngredientsTags,
-  };
-
-  createCardsDOM(baseRecipes);
+  });
+  createTypesDOM({
+    typeSet: createAppliancesSet(baseRecipes),
+    searchBar: searchBarAppliances,
+    listUl: appliancesListUL,
+    type: 'appliances',
+  });
   createAppliancesDOM(createAppliancesSet(baseRecipes));
   createUtensilsDOM(createUtensilsSet(baseRecipes));
-  createTypesDOM(ingredientsArgs);
   // createIngredientsDOM(createIngredientsSet(baseRecipes));
 
   // Dropdown menus
@@ -118,11 +121,24 @@ getData().then(recipes => {
     createUtensilsSet(recipeSearch.filteredRecipes);
 
     if (recipeSearch.mainSearchValue.length >= 3) {
-      createIngredientsDOM(recipeSearch.ingredientsSET);
+      // createIngredientsDOM(recipeSearch.ingredientsSET);
+      createTypesDOM({
+        typeSet: createIngredientsSet(recipeSearch.ingredientsSET),
+        searchBar: searchBarIngredients,
+        listUl: ingredientsListUL,
+        type: 'ingredients',
+      });
+
       createAppliancesDOM(recipeSearch.applianceSET);
       createCardsDOM(recipeSearch.filteredRecipes);
     } else if (!recipeSearch.mainSearchValue.length) {
-      createIngredientsDOM(createIngredientsSet(baseRecipes));
+      // createIngredientsDOM(createIngredientsSet(baseRecipes));
+      createTypesDOM({
+        typeSet: createIngredientsSet(baseRecipes),
+        searchBar: searchBarIngredients,
+        listUl: ingredientsListUL,
+        type: 'ingredients',
+      });
       createAppliancesDOM(createAppliancesSet(baseRecipes));
       createCardsDOM(baseRecipes);
       recipeSearch.filteredRecipes = baseRecipes;
@@ -144,14 +160,25 @@ getData().then(recipes => {
         }
       });
     });
-    // Creating SET to filter out doubles
     recipeSearch.ingredientsSET = [...new Set(filteredIngredientsList)];
 
     if (recipeSearch.ingredientsSearchValue.length >= 3) {
-      createIngredientsDOM(recipeSearch.ingredientsSET);
+      // createIngredientsDOM(recipeSearch.ingredientsSET);
+      createTypesDOM({
+        typeSet: recipeSearch.ingredientsSET,
+        searchBar: searchBarIngredients,
+        listUl: ingredientsListUL,
+        type: 'ingredients',
+      });
     } else if (!recipeSearch.ingredientsSearchValue.length) {
       recipeSearch.filteredRecipes = baseRecipes;
-      createIngredientsDOM(createIngredientsSet(baseRecipes));
+      // createIngredientsDOM(createIngredientsSet(baseRecipes));
+      createTypesDOM({
+        typeSet: createIngredientsSet(baseRecipes),
+        searchBar: searchBarIngredients,
+        listUl: ingredientsListUL,
+        type: 'ingredients',
+      });
     }
     console.log('INGREDIENTS SEARCH OBJECT', recipeSearch);
   });
