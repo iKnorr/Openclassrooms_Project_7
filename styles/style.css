@@ -57,26 +57,33 @@ input:focus {
   font-size: 32px;
 }
 
-.ingredients-tags {
+.tags {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
 }
 
-.ingredients-tag {
+.tag-wrapper {
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
   margin: 10px 20px 0 0;
   padding: 5px 10px;
-  background-color: var(--blue);
   color: var(--white);
   border-radius: 5px;
 }
-
-.ingredients-tag p {
+.tag-wrapper p {
   margin: 0 10px 0 0;
+}
+.ingredients-tag {
+  background-color: var(--blue);
+}
+.appliance-tag {
+  background-color: var(--green);
+}
+.utensils-tag {
+  background-color: var(--orange);
 }
 
 .input-value-wrapper {

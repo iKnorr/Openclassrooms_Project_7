@@ -21,7 +21,7 @@ const inputWrapper = document.querySelector('.input-value-wrapper');
 // SEARCH BARS
 const searchBar = document.getElementById('search-bar-common');
 const searchBarIngredients = document.querySelector('.search-bar-ingredients');
-const searchBarAppliances = document.querySelector('.search-bar-appliances');
+const searchBarAppliance = document.querySelector('.search-bar-appliance');
 const searchBarUtensils = document.querySelector('.search-bar-utensils');
 // Dropdown
 const dropdownBtns = document.querySelectorAll('.btn-search');
@@ -29,7 +29,7 @@ const specificSearchBars = document.querySelectorAll('.specific-search-bar-wrapp
 const chevronsDown = document.querySelectorAll('.fa-chevron-down');
 // Search values
 const ingredientsSearchValue = document.querySelector('.ingredients-search');
-const appliancesSearchValue = document.querySelector('.appliances-search');
+const applianceSearchValue = document.querySelector('.appliance-search');
 const utensilsSearchValue = document.querySelector('.utensils-search');
 
 const ingredientsSearch = document.querySelector('.ingredients-search');
@@ -39,7 +39,7 @@ const recipesNotFound = document.querySelector('.recipe-not-found');
 const closeIcon = document.querySelector('.fa-circle-xmark');
 // Type lists
 const ingredientsListUL = document.querySelector('.ingredients-list');
-const appliancesListUL = document.querySelector('.appliances-list');
+const applianceListUL = document.querySelector('.appliance-list');
 const utensilsListUL = document.querySelector('.utensils-list');
 
 const createIngredientsSet = data => {
@@ -50,10 +50,10 @@ const createIngredientsSet = data => {
   recipeSearch.ingredientsSET = [...new Set(filteredIngredientsList)];
   return recipeSearch.ingredientsSET;
 };
-const createAppliancesSet = data => {
-  let appliancesList = [];
-  data.map(({ appliance }) => appliancesList.push(appliance.toLowerCase()));
-  recipeSearch.applianceSET = [...new Set(appliancesList)];
+const createApplianceSet = data => {
+  let applianceList = [];
+  data.map(({ appliance }) => applianceList.push(appliance.toLowerCase()));
+  recipeSearch.applianceSET = [...new Set(applianceList)];
   return recipeSearch.applianceSET;
 };
 const createUtensilsSet = data => {
@@ -78,14 +78,17 @@ getData().then(recipes => {
     type: 'ingredients',
   });
   createTypesDOM({
-    typeSet: createAppliancesSet(baseRecipes),
-    searchBar: searchBarAppliances,
-    listUl: appliancesListUL,
-    type: 'appliances',
+    typeSet: createApplianceSet(baseRecipes),
+    searchBar: searchBarAppliance,
+    listUl: applianceListUL,
+    type: 'appliance',
   });
-  createAppliancesDOM(createAppliancesSet(baseRecipes));
-  createUtensilsDOM(createUtensilsSet(baseRecipes));
-  // createIngredientsDOM(createIngredientsSet(baseRecipes));
+  createTypesDOM({
+    typeSet: createUtensilsSet(baseRecipes),
+    searchBar: searchBarUtensils,
+    listUl: utensilsListUL,
+    type: 'utensils',
+  });
 
   // Dropdown menus
   dropdownBtns.forEach(btn => {
@@ -109,7 +112,7 @@ getData().then(recipes => {
     });
   });
 
-  // const createAppliances
+  // const createAppliance
 
   // Common search
   searchBar.addEventListener('input', e => {
@@ -117,7 +120,7 @@ getData().then(recipes => {
     recipeSearch.filteredRecipes = filterAll(recipeSearch.mainSearchValue);
 
     createIngredientsSet(recipeSearch.filteredRecipes);
-    createAppliancesSet(recipeSearch.filteredRecipes);
+    createApplianceSet(recipeSearch.filteredRecipes);
     createUtensilsSet(recipeSearch.filteredRecipes);
 
     if (recipeSearch.mainSearchValue.length >= 3) {
@@ -129,7 +132,13 @@ getData().then(recipes => {
         type: 'ingredients',
       });
 
-      createAppliancesDOM(recipeSearch.applianceSET);
+      createTypesDOM({
+        typeSet: createApplianceSet(recipeSearch.applianceSET),
+        searchBar: searchBarAppliance,
+        listUl: applianceListUL,
+        type: 'appliance',
+      });
+      // createApplianceDOM(recipeSearch.applianceSET);
       createCardsDOM(recipeSearch.filteredRecipes);
     } else if (!recipeSearch.mainSearchValue.length) {
       // createIngredientsDOM(createIngredientsSet(baseRecipes));
@@ -139,7 +148,13 @@ getData().then(recipes => {
         listUl: ingredientsListUL,
         type: 'ingredients',
       });
-      createAppliancesDOM(createAppliancesSet(baseRecipes));
+      // createApplianceDOM(createApplianceSet(baseRecipes));
+      createTypesDOM({
+        typeSet: createApplianceSet(baseRecipes),
+        searchBar: searchBarAppliance,
+        listUl: applianceListUL,
+        type: 'appliance',
+      });
       createCardsDOM(baseRecipes);
       recipeSearch.filteredRecipes = baseRecipes;
     }
@@ -184,8 +199,8 @@ getData().then(recipes => {
   });
 });
 
-// Search in appliances only
-searchBarAppliances.addEventListener('input', e => {
+// Search in appliance only
+searchBarAppliance.addEventListener('input', e => {
   recipeSearch.applianceSearchValue = e.target.value.toLowerCase();
 
   recipeSearch.filteredRecipes = filterAll(recipeSearch.applianceSearchValue);
@@ -199,10 +214,57 @@ searchBarAppliances.addEventListener('input', e => {
   recipeSearch.applianceSET = [...new Set(applianceList)];
 
   if (recipeSearch.applianceSearchValue.length >= 3) {
-    createAppliancesDOM(recipeSearch.applianceSET);
+    // createApplianceDOM(recipeSearch.applianceSET);
+    createTypesDOM({
+      typeSet: recipeSearch.applianceSET,
+      searchBar: searchBarAppliance,
+      listUl: applianceListUL,
+      type: 'appliance',
+    });
   } else if (!recipeSearch.applianceSearchValue.length) {
     recipeSearch.filteredRecipes = baseRecipes;
-    createAppliancesDOM(createAppliancesSet(baseRecipes));
+    // createApplianceDOM(createApplianceSet(baseRecipes));
+    createTypesDOM({
+      typeSet: createApplianceSet(baseRecipes),
+      searchBar: searchBarAppliance,
+      listUl: applianceListUL,
+      type: 'appliance',
+    });
   }
   console.log('APPLIANCES SEARCH OBJECT', recipeSearch);
+});
+
+searchBarUtensils.addEventListener('input', e => {
+  recipeSearch.utensilsSearchValue = e.target.value.toLowerCase();
+
+  recipeSearch.filteredRecipes = filterAll(recipeSearch.utensilsSearchValue);
+
+  let utensilsList = [];
+  recipeSearch.filteredRecipes.map(({ utensils }) => {
+    utensils.map(utensil => {
+      if (utensil.toLowerCase().includes(recipeSearch.utensilsSearchValue)) {
+        utensilsList.push(utensil.toLowerCase());
+      }
+    });
+  });
+  recipeSearch.utensilsSET = [...new Set(utensilsList)];
+
+  if (recipeSearch.utensilsSearchValue.length >= 3) {
+    createTypesDOM({
+      typeSet: recipeSearch.utensilsSET,
+      searchBar: searchBarUtensils,
+      listUl: utensilsListUL,
+      type: 'utensils',
+    });
+  } else if (!recipeSearch.utensilsSearchValue.length) {
+    recipeSearch.filteredRecipes = baseRecipes;
+    createTypesDOM({
+      typeSet: createUtensilsSet(baseRecipes),
+      searchBar: searchBarUtensils,
+      listUl: utensilsListUL,
+      type: 'utensils',
+    });
+  }
+
+  console.log('UTENSILS SEARCH OBJECT', recipeSearch);
 });

@@ -55,10 +55,10 @@ input.specific-search-bar.search-bar-utensils:focus {
   background-color: var(--orange);
 }
 
-input.specific-search-bar.search-bar-appliances {
+input.specific-search-bar.search-bar-appliance {
   background-color: var(--green);
 }
-input.specific-search-bar.search-bar-appliances:focus {
+input.specific-search-bar.search-bar-appliance:focus {
   background-color: var(--green);
 }
 
@@ -92,10 +92,10 @@ input.specific-search-bar.search-bar-ingredients:focus {
   background-color: var(--blue-hover);
 }
 
-.btn-appliances {
+.btn-appliance {
   background-color: var(--green);
 }
-.btn-appliances:hover {
+.btn-appliance:hover {
   color: var(--white);
   background-color: var(--green-hover);
 }
@@ -156,7 +156,7 @@ ul.type-list {
 ul.ingredients-list {
   background-color: var(--blue);
 }
-ul.appliances-list {
+ul.appliance-list {
   background-color: var(--green);
 }
 ul.utensils-list {
@@ -201,7 +201,7 @@ ul.utensils-list {
 .ingredients-item:hover {
   background-color: var(--blue-hover);
 }
-.appliances-item:hover {
+.appliance-item:hover {
   background-color: var(--green-hover);
 }
 .utensils-item:hover {
