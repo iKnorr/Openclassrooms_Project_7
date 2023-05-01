@@ -6,6 +6,7 @@
 //     recipes[i].name.includes('huile') ||
 //     recipes[i].description.includes('huile') ||
 //     recipes[i].ingredients.some(i => i.ingredient.includes('huile'))
+
 //   ) {
 //     filteredWithFor = [...filteredWithFor, recipes[i]];
 //   }
@@ -126,14 +127,14 @@ getData().then(recipes => {
     if (recipeSearch.mainSearchValue.length >= 3) {
       // createIngredientsDOM(recipeSearch.ingredientsSET);
       createTypesDOM({
-        typeSet: createIngredientsSet(recipeSearch.ingredientsSET),
+        typeSet: createIngredientsSet(recipeSearch.filteredRecipes),
         searchBar: searchBarIngredients,
         listUl: ingredientsListUL,
         type: 'ingredients',
       });
 
       createTypesDOM({
-        typeSet: createApplianceSet(recipeSearch.applianceSET),
+        typeSet: createApplianceSet(recipeSearch.filteredRecipes),
         searchBar: searchBarAppliance,
         listUl: applianceListUL,
         type: 'appliance',
