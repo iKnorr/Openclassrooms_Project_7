@@ -29,23 +29,15 @@ const filterAll = searchTerm => {
     if (
       data[i].name.includes(searchTerm) ||
       data[i].description.includes(searchTerm) ||
-      data[i].ingredients.some(i => i.ingredient.includes(searchTerm))
+      data[i].ingredients.some(i => i.ingredient.includes(searchTerm)) ||
+      data[i].appliance.toLowerCase().includes(searchTerm) ||
+      data[i].description.toLowerCase().includes(searchTerm)
     ) {
       filteredWithFor = [...filteredWithFor, data[i]];
     }
   }
-  console.log('FOR LOOP', filteredWithFor);
-
-  const results = data.filter(({ name, ingredients, description, appliance, utensils }) => {
-    return (
-      name.toLowerCase().includes(searchTerm) ||
-      ingredients.some(i => i.ingredient.toLowerCase().includes(searchTerm)) ||
-      utensils.some(i => i.toLowerCase().includes(searchTerm)) ||
-      appliance.toLowerCase().includes(searchTerm) ||
-      description.toLowerCase().includes(searchTerm)
-    );
-  });
-  return results;
+  console.log('FILTERED ALL', filteredWithFor);
+  return filteredWithFor;
 };
 
 // CREATE TAGS FOR INGREDIENTS
