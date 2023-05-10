@@ -113,8 +113,6 @@ getData().then(recipes => {
     });
   });
 
-  // const createAppliance
-
   // Common search
   searchBar.addEventListener('input', e => {
     recipeSearch.mainSearchValue = e.target.value.toLowerCase();
@@ -125,7 +123,6 @@ getData().then(recipes => {
     createUtensilsSet(recipeSearch.filteredRecipes);
 
     if (recipeSearch.mainSearchValue.length >= 3) {
-      // createIngredientsDOM(recipeSearch.ingredientsSET);
       createTypesDOM({
         typeSet: createIngredientsSet(recipeSearch.filteredRecipes),
         searchBar: searchBarIngredients,
@@ -139,17 +136,14 @@ getData().then(recipes => {
         listUl: applianceListUL,
         type: 'appliance',
       });
-      // createApplianceDOM(recipeSearch.applianceSET);
       createCardsDOM(recipeSearch.filteredRecipes);
     } else if (!recipeSearch.mainSearchValue.length) {
-      // createIngredientsDOM(createIngredientsSet(baseRecipes));
       createTypesDOM({
         typeSet: createIngredientsSet(baseRecipes),
         searchBar: searchBarIngredients,
         listUl: ingredientsListUL,
         type: 'ingredients',
       });
-      // createApplianceDOM(createApplianceSet(baseRecipes));
       createTypesDOM({
         typeSet: createApplianceSet(baseRecipes),
         searchBar: searchBarAppliance,
@@ -179,7 +173,6 @@ getData().then(recipes => {
     recipeSearch.ingredientsSET = [...new Set(filteredIngredientsList)];
 
     if (recipeSearch.ingredientsSearchValue.length >= 3) {
-      // createIngredientsDOM(recipeSearch.ingredientsSET);
       createTypesDOM({
         typeSet: recipeSearch.ingredientsSET,
         searchBar: searchBarIngredients,
@@ -187,8 +180,8 @@ getData().then(recipes => {
         type: 'ingredients',
       });
     } else if (!recipeSearch.ingredientsSearchValue.length) {
+      console.log('HERE IT IS');
       recipeSearch.filteredRecipes = baseRecipes;
-      // createIngredientsDOM(createIngredientsSet(baseRecipes));
       createTypesDOM({
         typeSet: createIngredientsSet(baseRecipes),
         searchBar: searchBarIngredients,
@@ -215,7 +208,6 @@ searchBarAppliance.addEventListener('input', e => {
   recipeSearch.applianceSET = [...new Set(applianceList)];
 
   if (recipeSearch.applianceSearchValue.length >= 3) {
-    // createApplianceDOM(recipeSearch.applianceSET);
     createTypesDOM({
       typeSet: recipeSearch.applianceSET,
       searchBar: searchBarAppliance,
@@ -224,7 +216,6 @@ searchBarAppliance.addEventListener('input', e => {
     });
   } else if (!recipeSearch.applianceSearchValue.length) {
     recipeSearch.filteredRecipes = baseRecipes;
-    // createApplianceDOM(createApplianceSet(baseRecipes));
     createTypesDOM({
       typeSet: createApplianceSet(baseRecipes),
       searchBar: searchBarAppliance,
