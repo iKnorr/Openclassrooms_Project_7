@@ -22,6 +22,20 @@ const recipeSearch = {
 const filterAll = searchTerm => {
   const data = !recipeSearch.filteredRecipes.length ? baseRecipes : recipeSearch.filteredRecipes;
 
+  // Alternative with for loop
+  let filteredWithFor = [];
+
+  for (i = 0; i < data.length; i++) {
+    if (
+      data[i].name.includes(searchTerm) ||
+      data[i].description.includes(searchTerm) ||
+      data[i].ingredients.some(i => i.ingredient.includes(searchTerm))
+    ) {
+      filteredWithFor = [...filteredWithFor, data[i]];
+    }
+  }
+  console.log('FOR LOOP', filteredWithFor);
+
   const results = data.filter(({ name, ingredients, description, appliance, utensils }) => {
     return (
       name.toLowerCase().includes(searchTerm) ||

@@ -1,21 +1,3 @@
-// Alternative with for loop
-// let filteredWithFor = [];
-
-// for (i = 0; i < recipes.length; i++) {
-//   if (
-//     recipes[i].name.includes('huile') ||
-//     recipes[i].description.includes('huile') ||
-//     recipes[i].ingredients.some(i => i.ingredient.includes('huile'))
-
-//   ) {
-//     filteredWithFor = [...filteredWithFor, recipes[i]];
-//   }
-// }
-// console.log('FOR LOOP', filteredWithFor);
-
-// const showInputValue = () => {
-//   inputValue.innerHTML = `${searchTerm}`;
-// };
 const inputValue = document.getElementById('input-value');
 const inputWrapper = document.querySelector('.input-value-wrapper');
 
