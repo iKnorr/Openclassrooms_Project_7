@@ -41,6 +41,15 @@
   background-color: var(--blue-hover);
 } */
 
+#inputContainer {
+  height: 0;
+  overflow: hidden;
+  transition: height 0.3s ease;
+}
+
+#inputContainer.show {
+  height: auto;
+}
 .specific-search-bar-wrapper i {
   position: absolute;
   top: 25px;
@@ -70,6 +79,7 @@ input.specific-search-bar.search-bar-ingredients:focus {
 }
 
 .btn-search {
+  display: none;
   width: 170px;
   height: 69px;
   border-radius: 5px;
@@ -116,6 +126,15 @@ input.specific-search-bar.search-bar-ingredients:focus {
   font-weight: 400;
   box-shadow: 2px 0px 5px rgba(0, 0, 0, 0.3);
 }
+/* .ingredients-search {
+  display: none;
+}
+.utensils-search {
+  display: none;
+}
+.appliance-search {
+  display: none;
+} */
 
 .fa-chevron-up {
   cursor: pointer;

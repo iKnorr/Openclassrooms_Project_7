@@ -18,6 +18,90 @@ const recipeSearch = {
   utensilsSET: [],
 };
 
+// Dropdown menus
+const ingredientsBtn = document.querySelector('.btn-ingredients');
+const ingredientsSearch = document.querySelector('.ingredients-search');
+const ingredientsChevronUp = ingredientsSearch.querySelector('.fa-chevron-up');
+
+const utensilsBtn = document.querySelector('.btn-utensils');
+const utensilsSearch = document.querySelector('.utensils-search');
+const utensilsChevronUp = utensilsSearch.querySelector('.fa-chevron-up');
+
+const applianceBtn = document.querySelector('.btn-appliance');
+const applianceSearch = document.querySelector('.appliance-search');
+const applianceChevronUp = applianceSearch.querySelector('.fa-chevron-up');
+
+ingredientsBtn.addEventListener('click', () => {
+  toggleSearchBar({ button: ingredientsBtn, searchBar: ingredientsSearch });
+  closeOtherDropdowns({
+    button1: utensilsBtn,
+    button2: applianceBtn,
+    dropdown1: utensilsSearch,
+    dropdown2: applianceSearch,
+  });
+});
+
+utensilsBtn.addEventListener('click', () => {
+  toggleSearchBar({ button: utensilsBtn, searchBar: utensilsSearch });
+  closeOtherDropdowns({
+    button1: applianceBtn,
+    button2: ingredientsBtn,
+    dropdown1: applianceSearch,
+    dropdown2: ingredientsSearch,
+  });
+});
+
+applianceBtn.addEventListener('click', () => {
+  toggleSearchBar({ button: applianceBtn, searchBar: applianceSearch });
+  closeOtherDropdowns({
+    button1: ingredientsBtn,
+    button2: utensilsBtn,
+    dropdown1: ingredientsSearch,
+    dropdown2: utensilsSearch,
+  });
+});
+
+ingredientsChevronUp.addEventListener('click', function (e) {
+  e.stopPropagation();
+  closeDropdown(ingredientsBtn, ingredientsSearch);
+});
+
+applianceChevronUp.addEventListener('click', function (e) {
+  e.stopPropagation();
+  closeDropdown(applianceBtn, applianceSearch);
+});
+
+utensilsChevronUp.addEventListener('click', function (e) {
+  e.stopPropagation();
+  closeDropdown(utensilsBtn, utensilsSearch);
+});
+
+const toggleSearchBar = ({ button, searchBar }) => {
+  if (!searchBar.classList.contains('show')) {
+    button.classList.remove('show');
+    searchBar.classList.add('show');
+  } else {
+    button.classList.add('show');
+    searchBar.classList.remove('show');
+  }
+};
+
+const closeOtherDropdowns = ({ button1, dropdown1, button2, dropdown2 }) => {
+  if (dropdown1.classList.contains('show')) {
+    button1.classList.add('show');
+    dropdown1.classList.remove('show');
+  }
+  if (dropdown2.classList.contains('show')) {
+    button2.classList.add('show');
+    dropdown2.classList.remove('show');
+  }
+};
+
+const closeDropdown = (button, searchBar) => {
+  button.classList.add('show');
+  searchBar.classList.remove('show');
+};
+
 // FILTER NAME, INGREDIENTS, DESCRIPTION
 const filterAll = searchTerm => {
   const data = !recipeSearch.filteredRecipes.length ? baseRecipes : recipeSearch.filteredRecipes;
@@ -38,6 +122,32 @@ const filterAll = searchTerm => {
   }
   console.log('FILTERED ALL', filteredWithFor);
   return filteredWithFor;
+};
+
+// Create Sets
+const createIngredientsSet = data => {
+  let filteredIngredientsList = [];
+  data.map(({ ingredients }) => {
+    ingredients.map(({ ingredient }) => filteredIngredientsList.push(ingredient.toLowerCase()));
+  });
+  recipeSearch.ingredientsSET = [...new Set(filteredIngredientsList)];
+  return recipeSearch.ingredientsSET;
+};
+const createApplianceSet = data => {
+  let applianceList = [];
+  data.map(({ appliance }) => applianceList.push(appliance.toLowerCase()));
+  recipeSearch.applianceSET = [...new Set(applianceList)];
+  return recipeSearch.applianceSET;
+};
+const createUtensilsSet = data => {
+  let utensilsList = [];
+  data.map(({ utensils }) => {
+    utensils.map(utensil => {
+      utensilsList.push(utensil.toLowerCase());
+    });
+  });
+  recipeSearch.utensilsSET = [...new Set(utensilsList)];
+  return recipeSearch.utensilsSET;
 };
 
 // CREATE TAGS FOR INGREDIENTS
@@ -116,7 +226,6 @@ const deleteTag = type => {
 
   closeTags.forEach(i => {
     i.addEventListener('click', e => {
-      console.log('DELETE', recipeSearch.filteredRecipes);
       const closeTag = e.target.previousElementSibling.textContent;
       recipeSearch[`${type}Tags`] = recipeSearch[`${type}Tags`].filter(i => {
         return i !== closeTag;
@@ -124,9 +233,7 @@ const deleteTag = type => {
       i.parentElement.remove();
 
       if (!recipeSearch[`${type}SearchValue`].trim()) {
-        console.log('NO SEARCH VALUE DELETE', recipeSearch.filteredRecipes);
         recipeSearch.filteredRecipes = filterRecipesByTags(baseRecipes, type);
-        console.log('AFTER: NO SEARCH VALUE DELETE', recipeSearch.filteredRecipes);
 
         createTypesDOM({
           typeSet: createIngredientsSet(recipeSearch.filteredRecipes),
