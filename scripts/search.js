@@ -68,6 +68,12 @@ getData().then(recipes => {
         listUl: applianceListUL,
         type: 'appliance',
       });
+      createTypesDOM({
+        typeSet: createUtensilsSet(recipeSearch.filteredRecipes),
+        searchBar: searchBarUtensils,
+        listUl: utensilsListUL,
+        type: 'utensils',
+      });
       createCardsDOM(recipeSearch.filteredRecipes);
     } else if (!recipeSearch.mainSearchValue.length) {
       createTypesDOM({
@@ -81,6 +87,12 @@ getData().then(recipes => {
         searchBar: searchBarAppliance,
         listUl: applianceListUL,
         type: 'appliance',
+      });
+      createTypesDOM({
+        typeSet: createUtensilsSet(baseRecipes),
+        searchBar: searchBarUtensils,
+        listUl: utensilsListUL,
+        type: 'utensils',
       });
       createCardsDOM(baseRecipes);
       recipeSearch.filteredRecipes = baseRecipes;
