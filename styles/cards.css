@@ -14,7 +14,7 @@
   background-color: var(--grey);
 }
 
-.card-text{
+.card-text {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -24,7 +24,7 @@
   font-weight: normal;
 }
 
-.card-time{
+.card-time {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -41,11 +41,10 @@
 
 .card-text-description {
   overflow: hidden;
-   text-overflow: ellipsis;
-   display: -webkit-box;
-   -webkit-line-clamp: 6;
-    line-clamp: 6;
-   -webkit-box-orient: vertical;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 6;
+  -webkit-box-orient: vertical;
 }
 
 .card-ingredients {
