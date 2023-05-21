@@ -111,9 +111,9 @@ const filterAll = searchTerm => {
 
   for (i = 0; i < data.length; i++) {
     if (
-      data[i].name.includes(searchTerm) ||
-      data[i].description.includes(searchTerm) ||
-      data[i].ingredients.some(i => i.ingredient.includes(searchTerm)) ||
+      data[i].name.toLowerCase().includes(searchTerm) ||
+      data[i].description.toLowerCase().includes(searchTerm) ||
+      data[i].ingredients.some(i => i.ingredient.toLowerCase().includes(searchTerm)) ||
       data[i].appliance.toLowerCase().includes(searchTerm) ||
       data[i].description.toLowerCase().includes(searchTerm)
     ) {
