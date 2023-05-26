@@ -101,11 +101,8 @@ const closeDropdown = (button, searchBar) => {
   button.classList.add('show');
   searchBar.classList.remove('show');
 };
-
 // FILTER NAME, INGREDIENTS, DESCRIPTION
-const filterAll = searchTerm => {
-  const data = !recipeSearch.filteredRecipes.length ? baseRecipes : recipeSearch.filteredRecipes;
-
+const filterAll = (searchTerm, data) => {
   // Alternative with for loop
   let filteredWithFor = [];
 
@@ -199,7 +196,6 @@ const createTypeTags = ({ type }) => {
           recipeSearch.filteredRecipes = filterRecipesByTags(recipeSearch.filteredRecipes, type);
           createTypeDomAndDeleteTag();
         } else {
-          console.log('ELSE');
           recipeSearch.filteredRecipes = filterRecipesByTags(recipeSearch.filteredRecipes, type);
           createTypeDomAndDeleteTag();
 
@@ -226,8 +222,10 @@ const deleteTag = type => {
       });
       i.parentElement.remove();
 
-      if (!recipeSearch[`${type}SearchValue`].trim()) {
+      if (!recipeSearch[`${type}SearchValue`].trim() && !recipeSearch.mainSearchValue.trim()) {
+        console.log('first', recipeSearch.filteredRecipes);
         recipeSearch.filteredRecipes = filterRecipesByTags(baseRecipes, type);
+        console.log('second', recipeSearch.filteredRecipes);
 
         createTypesDOM({
           typeSet: createIngredientsSet(recipeSearch.filteredRecipes),
@@ -250,22 +248,22 @@ const deleteTag = type => {
 
         createCardsDOM(recipeSearch.filteredRecipes);
       } else {
-        recipeSearch.filteredRecipes = filterRecipesByTags(baseRecipes, type);
-        if (type === 'ingredients') {
+        if (recipeSearch.mainSearchValue.length > 2) {
+          console.log('ELSE BEFORE', recipeSearch);
+          recipeSearch.filteredRecipes = filterAll(recipeSearch.mainSearchValue, baseRecipes);
+          console.log('ELSE AFTER', recipeSearch);
           createTypesDOM({
             typeSet: recipeSearch.ingredientsSET,
             searchBar: searchBarIngredients,
             listUl: ingredientsListUL,
             type: 'ingredients',
           });
-        } else if (type === 'appliance') {
           createTypesDOM({
             typeSet: recipeSearch.applianceSET,
             searchBar: searchBarAppliance,
             listUl: applianceListUL,
             type: 'appliance',
           });
-        } else if (type === 'utensils') {
           createTypesDOM({
             typeSet: recipeSearch.createUtensilsSet,
             searchBar: searchBarUtensils,
@@ -273,8 +271,31 @@ const deleteTag = type => {
             type: 'utensils',
           });
         }
+        createCardsDOM(recipeSearch.filteredRecipes);
       }
-      createCardsDOM(recipeSearch.filteredRecipes);
+      // console.log('before', recipeSearch.filteredRecipes);
+      // recipeSearch.filteredRecipes = filterRecipesByTags(baseRecipes, type);
+      // console.log('after', recipeSearch.filteredRecipes);
+      //   createTypesDOM({
+      //     typeSet: recipeSearch.ingredientsSET,
+      //     searchBar: searchBarIngredients,
+      //     listUl: ingredientsListUL,
+      //     type: 'ingredients',
+      //   });
+      //   createTypesDOM({
+      //     typeSet: recipeSearch.applianceSET,
+      //     searchBar: searchBarAppliance,
+      //     listUl: applianceListUL,
+      //     type: 'appliance',
+      //   });
+      //   createTypesDOM({
+      //     typeSet: recipeSearch.createUtensilsSet,
+      //     searchBar: searchBarUtensils,
+      //     listUl: utensilsListUL,
+      //     type: 'utensils',
+      //   });
+      // }
+      // createCardsDOM(recipeSearch.filteredRecipes);
       console.log('DELETE TAG SEARCH OBJECT', recipeSearch);
     });
   });

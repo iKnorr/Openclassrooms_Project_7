@@ -24,6 +24,7 @@ const utensilsListUL = document.querySelector('.utensils-list');
 
 getData().then(recipes => {
   const baseRecipes = recipes;
+  const baseArray = !recipeSearch.filteredRecipes.length ? baseRecipes : recipeSearch.filteredRecipes;
 
   createCardsDOM(baseRecipes);
   createTypesDOM({
@@ -48,7 +49,7 @@ getData().then(recipes => {
   // Common search
   searchBar.addEventListener('input', e => {
     recipeSearch.mainSearchValue = e.target.value.toLowerCase();
-    recipeSearch.filteredRecipes = filterAll(recipeSearch.mainSearchValue);
+    recipeSearch.filteredRecipes = filterAll(recipeSearch.mainSearchValue, baseArray);
 
     createIngredientsSet(recipeSearch.filteredRecipes);
     createApplianceSet(recipeSearch.filteredRecipes);
@@ -61,7 +62,6 @@ getData().then(recipes => {
         listUl: ingredientsListUL,
         type: 'ingredients',
       });
-
       createTypesDOM({
         typeSet: createApplianceSet(recipeSearch.filteredRecipes),
         searchBar: searchBarAppliance,
@@ -102,9 +102,11 @@ getData().then(recipes => {
 
   // Search in ingredients only
   searchBarIngredients.addEventListener('input', e => {
+    const baseArray = !recipeSearch.filteredRecipes.length ? baseRecipes : recipeSearch.filteredRecipes;
+
     recipeSearch.ingredientsSearchValue = e.target.value.toLowerCase();
 
-    recipeSearch.filteredRecipes = filterAll(recipeSearch.ingredientsSearchValue);
+    recipeSearch.filteredRecipes = filterAll(recipeSearch.ingredientsSearchValue, baseArray);
 
     let filteredIngredientsList = [];
     recipeSearch.filteredRecipes.map(({ ingredients }) => {
@@ -139,9 +141,11 @@ getData().then(recipes => {
 
 // Search in appliance only
 searchBarAppliance.addEventListener('input', e => {
+  const baseArray = !recipeSearch.filteredRecipes.length ? baseRecipes : recipeSearch.filteredRecipes;
+
   recipeSearch.applianceSearchValue = e.target.value.toLowerCase();
 
-  recipeSearch.filteredRecipes = filterAll(recipeSearch.applianceSearchValue);
+  recipeSearch.filteredRecipes = filterAll(recipeSearch.applianceSearchValue, baseArray);
 
   let applianceList = [];
   recipeSearch.filteredRecipes.map(({ appliance }) => {
@@ -171,9 +175,11 @@ searchBarAppliance.addEventListener('input', e => {
 });
 
 searchBarUtensils.addEventListener('input', e => {
+  const baseArray = !recipeSearch.filteredRecipes.length ? baseRecipes : recipeSearch.filteredRecipes;
+
   recipeSearch.utensilsSearchValue = e.target.value.toLowerCase();
 
-  recipeSearch.filteredRecipes = filterAll(recipeSearch.utensilsSearchValue);
+  recipeSearch.filteredRecipes = filterAll(recipeSearch.utensilsSearchValue, baseArray);
 
   let utensilsList = [];
   recipeSearch.filteredRecipes.map(({ utensils }) => {
