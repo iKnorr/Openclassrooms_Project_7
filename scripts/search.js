@@ -47,8 +47,10 @@ getData().then(recipes => {
 
   // Common search
   searchBar.addEventListener('input', e => {
+    const dataBaseArray = !recipeSearch.filteredRecipes.length ? baseRecipes : recipeSearch.filteredRecipes;
+
     recipeSearch.mainSearchValue = e.target.value.toLowerCase();
-    recipeSearch.filteredRecipes = filterAll(recipeSearch.mainSearchValue);
+    recipeSearch.filteredRecipes = filterAll(recipeSearch.mainSearchValue, dataBaseArray);
 
     createIngredientsSet(recipeSearch.filteredRecipes);
     createApplianceSet(recipeSearch.filteredRecipes);
@@ -102,9 +104,11 @@ getData().then(recipes => {
 
   // Search in ingredients only
   searchBarIngredients.addEventListener('input', e => {
+    const dataBaseArray = !recipeSearch.filteredRecipes.length ? baseRecipes : recipeSearch.filteredRecipes;
+
     recipeSearch.ingredientsSearchValue = e.target.value.toLowerCase();
 
-    recipeSearch.filteredRecipes = filterAll(recipeSearch.ingredientsSearchValue);
+    recipeSearch.filteredRecipes = filterAll(recipeSearch.ingredientsSearchValue, dataBaseArray);
 
     let filteredIngredientsList = [];
     recipeSearch.filteredRecipes.map(({ ingredients }) => {
@@ -139,9 +143,11 @@ getData().then(recipes => {
 
 // Search in appliance only
 searchBarAppliance.addEventListener('input', e => {
+  const dataBaseArray = !recipeSearch.filteredRecipes.length ? baseRecipes : recipeSearch.filteredRecipes;
+
   recipeSearch.applianceSearchValue = e.target.value.toLowerCase();
 
-  recipeSearch.filteredRecipes = filterAll(recipeSearch.applianceSearchValue);
+  recipeSearch.filteredRecipes = filterAll(recipeSearch.applianceSearchValue, dataBaseArray);
 
   let applianceList = [];
   recipeSearch.filteredRecipes.map(({ appliance }) => {
@@ -171,9 +177,11 @@ searchBarAppliance.addEventListener('input', e => {
 });
 
 searchBarUtensils.addEventListener('input', e => {
+  const dataBaseArray = !recipeSearch.filteredRecipes.length ? baseRecipes : recipeSearch.filteredRecipes;
+
   recipeSearch.utensilsSearchValue = e.target.value.toLowerCase();
 
-  recipeSearch.filteredRecipes = filterAll(recipeSearch.utensilsSearchValue);
+  recipeSearch.filteredRecipes = filterAll(recipeSearch.utensilsSearchValue, dataBaseArray);
 
   let utensilsList = [];
   recipeSearch.filteredRecipes.map(({ utensils }) => {
