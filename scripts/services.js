@@ -248,54 +248,36 @@ const deleteTag = type => {
 
         createCardsDOM(recipeSearch.filteredRecipes);
       } else {
-        if (recipeSearch.mainSearchValue.length > 2) {
-          console.log('ELSE BEFORE', recipeSearch);
-          recipeSearch.filteredRecipes = filterAll(recipeSearch.mainSearchValue, baseRecipes);
-          console.log('ELSE AFTER', recipeSearch);
-          createTypesDOM({
-            typeSet: recipeSearch.ingredientsSET,
-            searchBar: searchBarIngredients,
-            listUl: ingredientsListUL,
-            type: 'ingredients',
-          });
-          createTypesDOM({
-            typeSet: recipeSearch.applianceSET,
-            searchBar: searchBarAppliance,
-            listUl: applianceListUL,
-            type: 'appliance',
-          });
-          createTypesDOM({
-            typeSet: recipeSearch.createUtensilsSet,
-            searchBar: searchBarUtensils,
-            listUl: utensilsListUL,
-            type: 'utensils',
-          });
+        recipeSearch.filteredRecipes = filterAll(recipeSearch.mainSearchValue, baseRecipes);
+        console.log('TAGS FILTER', filterRecipesByTags(recipeSearch.filteredRecipes));
+        if (
+          recipeSearch.applianceTags.length > 0 ||
+          recipeSearch.ingredientsTags.length > 0 ||
+          recipeSearch.applianceTags.length > 0
+        ) {
+          recipeSearch.filteredRecipes = filterRecipesByTags(recipeSearch.filteredRecipes);
         }
-        createCardsDOM(recipeSearch.filteredRecipes);
+
+        createTypesDOM({
+          typeSet: createIngredientsSet(recipeSearch.filteredRecipes),
+          searchBar: searchBarIngredients,
+          listUl: ingredientsListUL,
+          type: 'ingredients',
+        });
+        createTypesDOM({
+          typeSet: createApplianceSet(recipeSearch.filteredRecipes),
+          searchBar: searchBarAppliance,
+          listUl: applianceListUL,
+          type: 'appliance',
+        });
+        createTypesDOM({
+          typeSet: createUtensilsSet(recipeSearch.filteredRecipes),
+          searchBar: searchBarUtensils,
+          listUl: utensilsListUL,
+          type: 'utensils',
+        });
       }
-      // console.log('before', recipeSearch.filteredRecipes);
-      // recipeSearch.filteredRecipes = filterRecipesByTags(baseRecipes, type);
-      // console.log('after', recipeSearch.filteredRecipes);
-      //   createTypesDOM({
-      //     typeSet: recipeSearch.ingredientsSET,
-      //     searchBar: searchBarIngredients,
-      //     listUl: ingredientsListUL,
-      //     type: 'ingredients',
-      //   });
-      //   createTypesDOM({
-      //     typeSet: recipeSearch.applianceSET,
-      //     searchBar: searchBarAppliance,
-      //     listUl: applianceListUL,
-      //     type: 'appliance',
-      //   });
-      //   createTypesDOM({
-      //     typeSet: recipeSearch.createUtensilsSet,
-      //     searchBar: searchBarUtensils,
-      //     listUl: utensilsListUL,
-      //     type: 'utensils',
-      //   });
-      // }
-      // createCardsDOM(recipeSearch.filteredRecipes);
+      createCardsDOM(recipeSearch.filteredRecipes);
       console.log('DELETE TAG SEARCH OBJECT', recipeSearch);
     });
   });
