@@ -117,7 +117,6 @@ const filterAll = (searchTerm, data) => {
       filteredWithFor = [...filteredWithFor, data[i]];
     }
   }
-  console.log('FILTERED ALL', filteredWithFor);
   return filteredWithFor;
 };
 
@@ -206,7 +205,6 @@ const createTypeTags = ({ type }) => {
         }
         createCardsDOM(recipeSearch.filteredRecipes);
       }
-      console.log('CREATE TAGS OBJECT', recipeSearch);
     });
   });
 };
@@ -223,9 +221,7 @@ const deleteTag = type => {
       i.parentElement.remove();
 
       if (!recipeSearch[`${type}SearchValue`].trim() && !recipeSearch.mainSearchValue.trim()) {
-        console.log('first', recipeSearch.filteredRecipes);
         recipeSearch.filteredRecipes = filterRecipesByTags(baseRecipes, type);
-        console.log('second', recipeSearch.filteredRecipes);
 
         createTypesDOM({
           typeSet: createIngredientsSet(recipeSearch.filteredRecipes),
@@ -249,7 +245,6 @@ const deleteTag = type => {
         createCardsDOM(recipeSearch.filteredRecipes);
       } else {
         recipeSearch.filteredRecipes = filterAll(recipeSearch.mainSearchValue, baseRecipes);
-        console.log('TAGS FILTER', filterRecipesByTags(recipeSearch.filteredRecipes));
         if (
           recipeSearch.applianceTags.length > 0 ||
           recipeSearch.ingredientsTags.length > 0 ||
@@ -278,7 +273,6 @@ const deleteTag = type => {
         });
       }
       createCardsDOM(recipeSearch.filteredRecipes);
-      console.log('DELETE TAG SEARCH OBJECT', recipeSearch);
     });
   });
 };

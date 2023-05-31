@@ -97,7 +97,6 @@ getData().then(recipes => {
       createCardsDOM(baseRecipes);
       recipeSearch.filteredRecipes = baseRecipes;
     }
-    console.log('MAIN SEARCH OBJECT', recipeSearch);
   });
 
   // Search in ingredients only
@@ -126,7 +125,6 @@ getData().then(recipes => {
         type: 'ingredients',
       });
     } else if (!recipeSearch.ingredientsSearchValue.length) {
-      console.log('HERE IT IS');
       recipeSearch.filteredRecipes = baseRecipes;
       createTypesDOM({
         typeSet: createIngredientsSet(baseRecipes),
@@ -135,7 +133,6 @@ getData().then(recipes => {
         type: 'ingredients',
       });
     }
-    console.log('INGREDIENTS SEARCH OBJECT', recipeSearch);
   });
 });
 
@@ -171,7 +168,6 @@ searchBarAppliance.addEventListener('input', e => {
       type: 'appliance',
     });
   }
-  console.log('APPLIANCES SEARCH OBJECT', recipeSearch);
 });
 
 searchBarUtensils.addEventListener('input', e => {
@@ -207,6 +203,4 @@ searchBarUtensils.addEventListener('input', e => {
       type: 'utensils',
     });
   }
-
-  console.log('UTENSILS SEARCH OBJECT', recipeSearch);
 });
