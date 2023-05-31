@@ -101,7 +101,6 @@ const closeDropdown = (button, searchBar) => {
   button.classList.add('show');
   searchBar.classList.remove('show');
 };
-
 // FILTER NAME, INGREDIENTS, DESCRIPTION
 const filterAll = (searchTerm, data) => {
   const results = data.filter(({ name, ingredients, description, appliance, utensils }) => {
@@ -191,7 +190,6 @@ const createTypeTags = ({ type }) => {
           recipeSearch.filteredRecipes = filterRecipesByTags(recipeSearch.filteredRecipes, type);
           createTypeDomAndDeleteTag();
         } else {
-          console.log('ELSE');
           recipeSearch.filteredRecipes = filterRecipesByTags(recipeSearch.filteredRecipes, type);
           createTypeDomAndDeleteTag();
 
@@ -202,7 +200,6 @@ const createTypeTags = ({ type }) => {
         }
         createCardsDOM(recipeSearch.filteredRecipes);
       }
-      console.log('CREATE TAGS OBJECT', recipeSearch);
     });
   });
 };
@@ -243,28 +240,34 @@ const deleteTag = type => {
         createCardsDOM(recipeSearch.filteredRecipes);
       } else {
         recipeSearch.filteredRecipes = filterAll(recipeSearch.mainSearchValue, baseRecipes);
+        if (
+          recipeSearch.applianceTags.length > 0 ||
+          recipeSearch.ingredientsTags.length > 0 ||
+          recipeSearch.applianceTags.length > 0
+        ) {
+          recipeSearch.filteredRecipes = filterRecipesByTags(recipeSearch.filteredRecipes);
+        }
 
         createTypesDOM({
-          typeSet: recipeSearch.ingredientsSET,
+          typeSet: createIngredientsSet(recipeSearch.filteredRecipes),
           searchBar: searchBarIngredients,
           listUl: ingredientsListUL,
           type: 'ingredients',
         });
         createTypesDOM({
-          typeSet: recipeSearch.applianceSET,
+          typeSet: createApplianceSet(recipeSearch.filteredRecipes),
           searchBar: searchBarAppliance,
           listUl: applianceListUL,
           type: 'appliance',
         });
         createTypesDOM({
-          typeSet: recipeSearch.createUtensilsSet,
+          typeSet: createUtensilsSet(recipeSearch.filteredRecipes),
           searchBar: searchBarUtensils,
           listUl: utensilsListUL,
           type: 'utensils',
         });
       }
       createCardsDOM(recipeSearch.filteredRecipes);
-      console.log('DELETE TAG SEARCH OBJECT', recipeSearch);
     });
   });
 };

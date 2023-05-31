@@ -24,6 +24,7 @@ const utensilsListUL = document.querySelector('.utensils-list');
 
 getData().then(recipes => {
   const baseRecipes = recipes;
+  const baseArray = !recipeSearch.filteredRecipes.length ? baseRecipes : recipeSearch.filteredRecipes;
 
   createCardsDOM(baseRecipes);
   createTypesDOM({
@@ -50,7 +51,7 @@ getData().then(recipes => {
     const dataBaseArray = !recipeSearch.filteredRecipes.length ? baseRecipes : recipeSearch.filteredRecipes;
 
     recipeSearch.mainSearchValue = e.target.value.toLowerCase();
-    recipeSearch.filteredRecipes = filterAll(recipeSearch.mainSearchValue, dataBaseArray);
+    recipeSearch.filteredRecipes = filterAll(recipeSearch.mainSearchValue, baseArray);
 
     createIngredientsSet(recipeSearch.filteredRecipes);
     createApplianceSet(recipeSearch.filteredRecipes);
@@ -63,7 +64,6 @@ getData().then(recipes => {
         listUl: ingredientsListUL,
         type: 'ingredients',
       });
-
       createTypesDOM({
         typeSet: createApplianceSet(recipeSearch.filteredRecipes),
         searchBar: searchBarAppliance,
@@ -99,16 +99,15 @@ getData().then(recipes => {
       createCardsDOM(baseRecipes);
       recipeSearch.filteredRecipes = baseRecipes;
     }
-    console.log('MAIN SEARCH OBJECT', recipeSearch);
   });
 
   // Search in ingredients only
   searchBarIngredients.addEventListener('input', e => {
-    const dataBaseArray = !recipeSearch.filteredRecipes.length ? baseRecipes : recipeSearch.filteredRecipes;
+    const baseArray = !recipeSearch.filteredRecipes.length ? baseRecipes : recipeSearch.filteredRecipes;
 
     recipeSearch.ingredientsSearchValue = e.target.value.toLowerCase();
 
-    recipeSearch.filteredRecipes = filterAll(recipeSearch.ingredientsSearchValue, dataBaseArray);
+    recipeSearch.filteredRecipes = filterAll(recipeSearch.ingredientsSearchValue, baseArray);
 
     let filteredIngredientsList = [];
     recipeSearch.filteredRecipes.map(({ ingredients }) => {
@@ -128,7 +127,6 @@ getData().then(recipes => {
         type: 'ingredients',
       });
     } else if (!recipeSearch.ingredientsSearchValue.length) {
-      console.log('HERE IT IS');
       recipeSearch.filteredRecipes = baseRecipes;
       createTypesDOM({
         typeSet: createIngredientsSet(baseRecipes),
@@ -137,17 +135,16 @@ getData().then(recipes => {
         type: 'ingredients',
       });
     }
-    console.log('INGREDIENTS SEARCH OBJECT', recipeSearch);
   });
 });
 
 // Search in appliance only
 searchBarAppliance.addEventListener('input', e => {
-  const dataBaseArray = !recipeSearch.filteredRecipes.length ? baseRecipes : recipeSearch.filteredRecipes;
+  const baseArray = !recipeSearch.filteredRecipes.length ? baseRecipes : recipeSearch.filteredRecipes;
 
   recipeSearch.applianceSearchValue = e.target.value.toLowerCase();
 
-  recipeSearch.filteredRecipes = filterAll(recipeSearch.applianceSearchValue, dataBaseArray);
+  recipeSearch.filteredRecipes = filterAll(recipeSearch.applianceSearchValue, baseArray);
 
   let applianceList = [];
   recipeSearch.filteredRecipes.map(({ appliance }) => {
@@ -173,15 +170,14 @@ searchBarAppliance.addEventListener('input', e => {
       type: 'appliance',
     });
   }
-  console.log('APPLIANCES SEARCH OBJECT', recipeSearch);
 });
 
 searchBarUtensils.addEventListener('input', e => {
-  const dataBaseArray = !recipeSearch.filteredRecipes.length ? baseRecipes : recipeSearch.filteredRecipes;
+  const baseArray = !recipeSearch.filteredRecipes.length ? baseRecipes : recipeSearch.filteredRecipes;
 
   recipeSearch.utensilsSearchValue = e.target.value.toLowerCase();
 
-  recipeSearch.filteredRecipes = filterAll(recipeSearch.utensilsSearchValue, dataBaseArray);
+  recipeSearch.filteredRecipes = filterAll(recipeSearch.utensilsSearchValue, baseArray);
 
   let utensilsList = [];
   recipeSearch.filteredRecipes.map(({ utensils }) => {
@@ -209,6 +205,4 @@ searchBarUtensils.addEventListener('input', e => {
       type: 'utensils',
     });
   }
-
-  console.log('UTENSILS SEARCH OBJECT', recipeSearch);
 });
